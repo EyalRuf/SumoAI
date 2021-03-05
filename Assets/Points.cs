@@ -10,10 +10,13 @@ public class Points : MonoBehaviour
     Coroutine inside;
     [SerializeField] Text pointCount;
 
+    //References
+    GameHandler gameHandler;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        gameHandler = GameObject.FindGameObjectWithTag("GameHandler").GetComponent<GameHandler>();
     }
 
     // Update is called once per frame
@@ -35,9 +38,20 @@ public class Points : MonoBehaviour
     IEnumerator PointCycle()
     {
         yield return new WaitForSeconds(0.5f);
-        points++;
-        pointCount.text = points.ToString();
-        inside = StartCoroutine("PointCycle");
+
+        if (!gameHandler.gameStopped)
+        {
+            points++;
+            pointCount.text = points.ToString();
+
+            if (points >= gameHandler.pointWinRequirement)
+            {
+                gameHandler.WinCheck(gameObject);
+            }
+
+            inside = StartCoroutine("PointCycle");
+        }
+        
     }
 }
 
