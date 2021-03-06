@@ -38,11 +38,9 @@ public class Sumo : MonoBehaviour
         rb.MovePosition(rb.position + (transform.forward * movementSpeed * Time.deltaTime));
     }
 
-    public void Rotate(float rotationAngle)
+    public void Rotate(float rotateTo)
     {
-        //Quaternion deltaRotation = Quaternion.Euler(new Vector3(0, rotationAngle, 0) * rotationSpeed * Time.deltaTime);
-        Vector3 newDirection = Vector3.RotateTowards(transform.forward, new Vector3(0, rotationAngle, 0), rotationSpeed * Time.deltaTime, 0);
-        transform.rotation = (Quaternion.LookRotation(newDirection));
+        transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(0, rotateTo, 0), rotationSpeed * Time.deltaTime);
     }
 
     public void Dodge()
@@ -59,7 +57,7 @@ public class Sumo : MonoBehaviour
     public void Push()
     {
         // Performing the push
-        rb.AddForce(transform.forward * pushForce, ForceMode.Acceleration);
+        rb.AddForce(transform.forward * pushForce, ForceMode.Impulse);
 
         // State changes
         isPushing = true;
