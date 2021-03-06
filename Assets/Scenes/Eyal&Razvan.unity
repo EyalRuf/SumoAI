@@ -340,17 +340,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionLocked: 0
-  movementSpeed: 3
-  rotationSpeed: 10
+  movementSpeed: 4
+  rotationSpeed: 2.5
   isPushing: 0
   pushCD: 3
   pushDuration: 1
-  pushForce: 20
+  pushForce: 15
   isDodging: 0
   dodgeCD: 3
   dodgeDuration: 0.5
-  currObjective: 1
-  rotateTo: 100
+  currObjective: 0
+  rotateToY: 180
 --- !u!1 &1638718863
 GameObject:
   m_ObjectHideFlags: 0
