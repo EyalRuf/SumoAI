@@ -41,7 +41,6 @@ public class Sumo : MonoBehaviour
     public void Rotate(float rotateTo)
     {
         transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(0, rotateTo, 0), rotationSpeed * Time.deltaTime);
-        Movement();
     }
 
     public void Dodge()
