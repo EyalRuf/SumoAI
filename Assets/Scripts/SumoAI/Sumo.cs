@@ -5,6 +5,7 @@ public class Sumo : MonoBehaviour
 {
     private Rigidbody rb;
     private Collider coll;
+    private Material color;
 
     public bool actionLocked;
 
@@ -31,6 +32,7 @@ public class Sumo : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         coll = GetComponent<CapsuleCollider>();
+        color = GetComponent<Material>();
     }
 
     public void Movement()
@@ -53,6 +55,7 @@ public class Sumo : MonoBehaviour
         // State changes
         isDodging = true;
         actionLocked = true;
+
         StartCoroutine(ActionLock(dodgeDuration));
         StartCoroutine(DodgeCooldown());
     }
