@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Points : MonoBehaviour
 {
-    int points;
+    public int points;
     bool inCircle;
     Coroutine inside;
     [SerializeField] Text pointCount;
@@ -27,12 +27,19 @@ public class Points : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
+        gameHandler.Entered(true);
         inside = StartCoroutine(PointCycle());
     }
 
     private void OnTriggerExit(Collider other)
     {
+        gameHandler.Entered(false);
         StopCoroutine(inside);
+    }
+
+    public void UpdateUI()
+    {
+        pointCount.text = points.ToString();
     }
 
     IEnumerator PointCycle()
@@ -41,10 +48,10 @@ public class Points : MonoBehaviour
 
         if (!gameHandler.gameStopped)
         {
-            points++;
+            points += gameHandler.GetModifier();
             pointCount.text = points.ToString();
 
-            if (points >= gameHandler.pointWinRequirement)
+            if (points >= gameHandler.GetRequirementValue())
             {
                 gameHandler.WinCheck(gameObject);
             }
