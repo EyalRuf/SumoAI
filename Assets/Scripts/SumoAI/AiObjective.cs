@@ -1,8 +1,6 @@
 ﻿public enum AiObjective : int
 {
-    move = 0,
-    rotate = 1,
-    dodge = 2,
-    push = 3,
-    wait = 4
+    dodge = 0,
+    push = 1,
+    idle = 2
 }

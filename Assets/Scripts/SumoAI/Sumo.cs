@@ -5,7 +5,6 @@ public class Sumo : MonoBehaviour
 {
     private Rigidbody rb;
     private Collider coll;
-    private Material color;
 
     public bool actionLocked;
 
@@ -17,13 +16,13 @@ public class Sumo : MonoBehaviour
     public float rotationSpeed;
 
     [Header("Pushing")]
-    public bool isPushing;
+    public bool usedPush;
     public float pushCD;
     public float pushDuration;
     public float pushForce;
 
     [Header("Dodge")]
-    public bool isDodging;
+    public bool usedDodge;
     public float dodgeCD;
     public float dodgeDuration;
 
@@ -32,17 +31,17 @@ public class Sumo : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         coll = GetComponent<CapsuleCollider>();
-        color = GetComponent<Material>();
     }
 
-    public void Movement()
+    public void MoveTowards(Vector3 destination)
     {
-        rb.MovePosition(rb.position + (transform.forward * movementSpeed * Time.deltaTime));
+        float step = movementSpeed * Time.deltaTime;
+        rb.position = Vector3.MoveTowards(rb.position, destination, step);
     }
 
-    public void Rotate(float rotateTo)
+    public void RotateTo(float angle)
     {
-        transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(0, rotateTo, 0), rotationSpeed * Time.deltaTime);
+        transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(0, angle, 0), rotationSpeed * Time.deltaTime);
     }
 
     public void Dodge()
@@ -51,10 +50,8 @@ public class Sumo : MonoBehaviour
         coll.enabled = false;
 
         // State changes
-        isDodging = true;
-        actionLocked = true;
-
-        StartCoroutine(ActionLock(dodgeDuration));
+        usedDodge = true;
+        StartCoroutine(ActionLockDodge(dodgeDuration));
         StartCoroutine(DodgeCooldown());
     }
     public void Push()
@@ -63,28 +60,42 @@ public class Sumo : MonoBehaviour
         rb.AddForce(transform.forward * pushForce, ForceMode.Impulse);
 
         // State changes
-        isPushing = true;
-        actionLocked = true;
-        StartCoroutine(ActionLock(pushDuration));
+        usedPush = true;
+        StartCoroutine(ActionLockPush(pushDuration));
         StartCoroutine(PushCooldown());
     }
 
-    IEnumerator ActionLock(float duration)
+    IEnumerator ActionLockPush(float duration)
     {
+        actionLocked = true;
         yield return new WaitForSeconds(duration);
+        StartCoroutine(ActionLock());
+    }
+
+    IEnumerator ActionLockDodge(float duration)
+    {
+        actionLocked = true;
+        yield return new WaitForSeconds(duration);
+        coll.enabled = true;
+        StartCoroutine(ActionLock());
+    }
+
+    IEnumerator ActionLock()
+    {
+        yield return null;
         actionLocked = false;
+        rb.angularVelocity = Vector3.zero;
     }
 
     IEnumerator DodgeCooldown()
     {
         yield return new WaitForSeconds(dodgeCD);
-        isDodging = false;
-        coll.enabled = true;
+        usedDodge = false;
     }
 
     IEnumerator PushCooldown()
     {
         yield return new WaitForSeconds(pushCD);
-        isPushing = false;
+        usedPush = false;
     }
 }
