@@ -27,13 +27,13 @@ public class Points : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        GameHandler.numberOfPlayerInRing++;
+        gameHandler.Entered(true);
         inside = StartCoroutine(PointCycle());
     }
 
     private void OnTriggerExit(Collider other)
     {
-        GameHandler.numberOfPlayerInRing--;
+        gameHandler.Entered(false);
         StopCoroutine(inside);
     }
 
@@ -48,10 +48,10 @@ public class Points : MonoBehaviour
 
         if (!gameHandler.gameStopped)
         {
-            points += (int)GameHandler.pointModifier;
+            points += gameHandler.GetModifier();
             pointCount.text = points.ToString();
 
-            if (points >= gameHandler.pointWinRequirement)
+            if (points >= gameHandler.GetRequirementValue())
             {
                 gameHandler.WinCheck(gameObject);
             }
