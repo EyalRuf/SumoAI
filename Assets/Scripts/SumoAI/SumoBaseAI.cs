@@ -10,7 +10,7 @@ public class SumoBaseAI : Sumo
     public float rotateToY;
 
     // Update is called once per frame
-    void Update()
+    protected virtual void FixedUpdate()
     {
         PerformObjective();
     }
@@ -30,7 +30,7 @@ public class SumoBaseAI : Sumo
             {
                 Dodge();
             }
-            else if (currObjective == AiObjective.wait)
+            else if (currObjective == AiObjective.idle)
             {
                 // Do nothing :D
             }
