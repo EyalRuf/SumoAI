@@ -51,7 +51,6 @@ public class Sumo : MonoBehaviour
 
         // State changes
         usedDodge = true;
-        actionLocked = true;
         StartCoroutine(ActionLockDodge(dodgeDuration));
         StartCoroutine(DodgeCooldown());
     }
@@ -62,22 +61,30 @@ public class Sumo : MonoBehaviour
 
         // State changes
         usedPush = true;
-        actionLocked = true;
         StartCoroutine(ActionLockPush(pushDuration));
         StartCoroutine(PushCooldown());
     }
 
     IEnumerator ActionLockPush(float duration)
     {
+        actionLocked = true;
         yield return new WaitForSeconds(duration);
-        actionLocked = false;
+        StartCoroutine(ActionLock());
     }
 
     IEnumerator ActionLockDodge(float duration)
     {
+        actionLocked = true;
         yield return new WaitForSeconds(duration);
         coll.enabled = true;
+        StartCoroutine(ActionLock());
+    }
+
+    IEnumerator ActionLock()
+    {
+        yield return null;
         actionLocked = false;
+        rb.angularVelocity = Vector3.zero;
     }
 
     IEnumerator DodgeCooldown()
