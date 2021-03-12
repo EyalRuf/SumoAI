@@ -5,9 +5,8 @@ using UnityEngine.UI;
 
 public class Points : MonoBehaviour
 {
-    public int points;
-    bool inCircle;
-    Coroutine inside;
+    //Variables
+    public int points { get; private set; }
     [SerializeField] Text pointCount;
 
     //References
@@ -19,46 +18,10 @@ public class Points : MonoBehaviour
         gameHandler = GameObject.FindGameObjectWithTag("GameHandler").GetComponent<GameHandler>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void UpdatePoints(int amount)
     {
-
-    }
-    
-    private void OnTriggerEnter(Collider other)
-    {
-        gameHandler.Entered(true);
-        inside = StartCoroutine(PointCycle());
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        gameHandler.Entered(false);
-        StopCoroutine(inside);
-    }
-
-    public void UpdateUI()
-    {
+        points += amount;
         pointCount.text = points.ToString();
-    }
-
-    IEnumerator PointCycle()
-    {
-        yield return new WaitForSeconds(0.5f);
-
-        if (!gameHandler.gameStopped)
-        {
-            points += gameHandler.GetModifier();
-            pointCount.text = points.ToString();
-
-            if (points >= gameHandler.GetRequirementValue())
-            {
-                gameHandler.WinCheck(gameObject);
-            }
-
-            inside = StartCoroutine("PointCycle");
-        }
-        
     }
 }
 
