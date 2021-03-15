@@ -6,10 +6,10 @@ public class PowerUpPointBundle : MonoBehaviour
 {
     [SerializeField] int pointCount;
 
-    private void OnTriggerEnter(Collider other)
+    public int ReturnPointCount()
     {
-        other.GetComponent<Points>().points += pointCount;
-        other.GetComponent<Points>().UpdateUI();
-        Destroy(gameObject);
+        return pointCount;
     }
+
+
 }
