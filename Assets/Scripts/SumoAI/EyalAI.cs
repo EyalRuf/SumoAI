@@ -4,7 +4,7 @@ using System.Collections;
 public class EyalAI : SumoBaseAI
 {
     // Save info about other sumos
-    public SumoBaseAI otherSumo;
+    public GameObject otherSumo;
 
     // Update is called once per frame
     void Update()

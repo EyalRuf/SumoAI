@@ -27,7 +27,7 @@ public class Sumo : MonoBehaviour
     public float dodgeDuration;
 
     // Start is called before the first frame update
-    void Start()
+    public virtual void Start()
     {
         rb = GetComponent<Rigidbody>();
         coll = GetComponent<CapsuleCollider>();
@@ -36,7 +36,7 @@ public class Sumo : MonoBehaviour
     public void MoveTowards(Vector3 destination)
     {
         float step = movementSpeed * Time.deltaTime;
-        rb.position = Vector3.MoveTowards(rb.position, destination, step);
+        rb.position = Vector3.MoveTowards(rb.position, destination, step); 
     }
 
     public void RotateTo(float angle)
