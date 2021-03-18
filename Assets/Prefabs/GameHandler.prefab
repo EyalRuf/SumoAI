@@ -45,8 +45,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointWinRequirement: 50
-  gameStopped: 0
+  cycleTimeLength: 1
+  pointModifier: 1
   winBox: {fileID: 0}
+  ringTransform: {fileID: 0}
+  playerLayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!114 &1706406914214676763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,16 +64,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b52ba0584dce3ea47ab2eaa66db22fad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstacle: {fileID: 8538659700644443652, guid: 840e9b53ca76ee9499f3ab8e03511611,
-    type: 3}
-  numberOfObstacles: 10
-  radius: 7.06
-  offset: {x: -28.61468, y: -234.36, z: -6.07}
-  yPosition: -234.36
+  gameHandler: {fileID: 1706406914214676765}
+  obstacles:
+  - {fileID: 8538659700644443652, guid: 840e9b53ca76ee9499f3ab8e03511611, type: 3}
+  numberOfObstacles: 5
+  radius: 10
+  offset: {x: 0, y: 0, z: 0}
+  yPosition: 1
   powerUps:
-  - {fileID: 8538659700644443652, guid: 63bbb2dc064033e46952fbc34993d954, type: 3}
+  - {fileID: 4015976259989596317, guid: 786d223b6473a7c4ab64691b1b4edc61, type: 3}
+  - {fileID: 8234076264019239895, guid: 8ce89f12a239d754b9648c0724b90f72, type: 3}
+  - {fileID: 6447345408210300524, guid: 2958467dd98b16e43b90c8e93e473022, type: 3}
+  minSpawnIncrement: 3
+  maxSpawnIncrement: 7
   collisionCheckRadius: 1
-  minX: -40.6
-  maxX: -15.8
-  minZ: -18.1
-  maxZ: 5.7
+  minX: -16
+  maxX: 16
+  minZ: -16
+  maxZ: 16
