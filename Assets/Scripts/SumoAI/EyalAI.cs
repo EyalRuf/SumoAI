@@ -6,6 +6,12 @@ public class EyalAI : SumoBaseAI
     // Save info about other sumos
     public GameObject otherSumo;
 
+    // Info I need to save
+    // Ring center
+    // Other sumos
+    // Obstacles?
+    // Powerups?
+
     // Update is called once per frame
     void Update()
     {

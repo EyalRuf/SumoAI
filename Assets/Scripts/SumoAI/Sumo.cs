@@ -10,7 +10,6 @@ public class Sumo : MonoBehaviour
 
     [Header("Movement")]
     public float movementSpeed;
-    //public Vector3 moveDestination;
 
     [Header("Rotation")]
     public float rotationSpeed;
