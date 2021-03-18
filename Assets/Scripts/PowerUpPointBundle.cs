@@ -11,5 +11,14 @@ public class PowerUpPointBundle : MonoBehaviour
         return pointCount;
     }
 
-
+    void OnCollisionEnter(Collision collision)
+    {
+        Collider other = collision.collider;
+        if (other.tag == "Player")
+        {
+            Points somuPoints = other.GetComponent<Points>();
+            somuPoints.UpdatePoints(ReturnPointCount());
+            Destroy(gameObject);
+        }
+    }
 }
