@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ObjectSpawner : MonoBehaviour
 {
+    [Header("References")]
+    public GameHandler gameHandler;
+
     [Header("Settings obstacles")]
     [SerializeField] List<GameObject> obstacles;
     [SerializeField] int numberOfObstacles;
@@ -52,7 +55,7 @@ public class ObjectSpawner : MonoBehaviour
 
         yield return new WaitForSeconds(Random.Range(minSpawnIncrement, maxSpawnIncrement));
 
-        if (!GameObject.FindGameObjectWithTag("GameHandler").GetComponent<GameHandler>().gameStopped)
+        if (!gameHandler.gameStopped)
         {
             if (minSpawnIncrement <= 0 || maxSpawnIncrement <= 0 || minSpawnIncrement > maxSpawnIncrement) //Safety check
             {
@@ -60,18 +63,21 @@ public class ObjectSpawner : MonoBehaviour
                 yield break;
             }
 
-            //Tries to spawn a powerup, if something is already blocking the way, then it retries until it can freely spawn
-            while (!canSpawn)
-            {
-                Vector3 spawnPosition = new Vector3(Random.Range(minX, maxX), yPosition, Random.Range(minZ, maxZ));
-                preventSpawningArray = Physics.OverlapSphere(spawnPosition, collisionCheckRadius, 9);
+            Vector3 spawnPosition = new Vector3(Random.Range(minX, maxX), yPosition, Random.Range(minZ, maxZ));
+            Instantiate(powerUps[Random.Range(0, powerUps.Count)], spawnPosition, Quaternion.identity);
 
-                if (preventSpawningArray.Length <= 0)
-                {
-                    Instantiate(powerUps[Random.Range(0, powerUps.Count)], spawnPosition, Quaternion.identity);
-                    canSpawn = true;
-                }
-            }
+            //Tries to spawn a powerup, if something is already blocking the way, then it retries until it can freely spawn
+            //while (!canSpawn)
+            //{
+            //    Vector3 spawnPosition = new Vector3(Random.Range(minX, maxX), yPosition, Random.Range(minZ, maxZ));
+            //    preventSpawningArray = Physics.OverlapSphere(spawnPosition, collisionCheckRadius, 9);
+
+            //    if (preventSpawningArray.Length <= 0)
+            //    {
+            //        Instantiate(powerUps[Random.Range(0, powerUps.Count)], spawnPosition, Quaternion.identity);
+            //        canSpawn = true;
+            //    }
+            //}
 
             yield return StartCoroutine(SpawnPowerUp());
         }
