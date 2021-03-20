@@ -8,6 +8,8 @@ TagManager:
   - Boat
   - GameHandler
   - PointBundle
+  - PowerUp
+  - Ring
   layers:
   - Default
   - TransparentFX
