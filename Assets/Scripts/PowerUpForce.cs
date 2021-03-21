@@ -7,20 +7,23 @@ public class PowerUpForce : MonoBehaviour
     [Header("Settings")]
     [SerializeField] float forceGain;
     [SerializeField] float duration;
-    float originalForce;
 
-    private void OnTriggerEnter(Collider other)
+    void OnCollisionEnter(Collision collision)
     {
-        originalForce = other.GetComponent<Sumo>().pushForce;
-        other.GetComponent<Sumo>().pushForce += forceGain;
-        transform.position = new Vector3(0, Random.Range(-300, -500), 0);
-        StartCoroutine(ResetForceValue(other.gameObject));
+        Collider other = collision.collider;
+        if (other.tag == "Player")
+        {
+            Sumo somu = other.GetComponent<Sumo>();
+            somu.pushForce += forceGain;
+            transform.position = new Vector3(0, Random.Range(-300, -500), 0);
+            StartCoroutine(ResetForceValue(somu));
+        }
     }
 
-    IEnumerator ResetForceValue(GameObject affectedAI)
+    IEnumerator ResetForceValue(Sumo somu)
     {
         yield return new WaitForSeconds(duration);
-        affectedAI.GetComponent<Sumo>().pushForce += originalForce;
+        somu.pushForce -= forceGain;
         Destroy(gameObject);
     }
 }

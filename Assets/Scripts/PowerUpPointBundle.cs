@@ -6,10 +6,19 @@ public class PowerUpPointBundle : MonoBehaviour
 {
     [SerializeField] int pointCount;
 
-    private void OnTriggerEnter(Collider other)
+    public int ReturnPointCount()
     {
-        other.GetComponent<Points>().points += pointCount;
-        other.GetComponent<Points>().UpdateUI();
-        Destroy(gameObject);
+        return pointCount;
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        Collider other = collision.collider;
+        if (other.tag == "Player")
+        {
+            Points somuPoints = other.GetComponent<Points>();
+            somuPoints.UpdatePoints(ReturnPointCount());
+            Destroy(gameObject);
+        }
     }
 }

@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class ObjectSpawner : MonoBehaviour
 {
+    [Header("References")]
+    public GameHandler gameHandler;
+
     [Header("Settings obstacles")]
-    [SerializeField] GameObject obstacle;
+    [SerializeField] List<GameObject> obstacles;
     [SerializeField] int numberOfObstacles;
     [Tooltip("Radius of the ring. Length from center to the side.")]
     [SerializeField] float radius;
@@ -16,6 +19,8 @@ public class ObjectSpawner : MonoBehaviour
 
     [Header("Settings powerups")]
     [SerializeField] List<GameObject> powerUps;
+    [SerializeField] float minSpawnIncrement;
+    [SerializeField] float maxSpawnIncrement;
     [SerializeField] float collisionCheckRadius;
     [SerializeField] float minX;
     [SerializeField] float maxX;
@@ -28,31 +33,53 @@ public class ObjectSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SpawnObstacle(numberOfObstacles);
+        StartCoroutine(SpawnPowerUp());
+    }
+
+    public void SpawnObstacle(int obstacleCount)
+    {
         //Spawns a set number of obstacles at the start INSIDE the ring
-        for (int i = 0; i < numberOfObstacles; i++)
+        for (int i = 0; i < obstacleCount; i++)
         {
             Vector3 spawnPoint = Random.insideUnitSphere * radius;
             spawnPoint += offset;
             spawnPoint.y = yPosition;
-            Instantiate(obstacle, spawnPoint, Quaternion.identity);
+            Instantiate(obstacles[Random.Range(0, obstacles.Count)], spawnPoint, Quaternion.identity);
         }
-
-        SpawnPowerUp();
     }
 
-    public void SpawnPowerUp()
+    IEnumerator SpawnPowerUp()
     {
-        //Tries to spawn a powerup, if something is already blocking the way, then it retries until it can freely spawn
-        while (!canSpawn)
-        {
-            Vector3 spawnPosition = new Vector3(Random.Range(minX, maxX), yPosition, Random.Range(minZ, maxZ));
-            preventSpawningArray = Physics.OverlapSphere(spawnPosition, collisionCheckRadius, 9);
+        canSpawn = false;
 
-            if(preventSpawningArray.Length == 0)
+        yield return new WaitForSeconds(Random.Range(minSpawnIncrement, maxSpawnIncrement));
+
+        if (!gameHandler.gameStopped)
+        {
+            if (minSpawnIncrement <= 0 || maxSpawnIncrement <= 0 || minSpawnIncrement > maxSpawnIncrement) //Safety check
             {
-                Instantiate(powerUps[Random.Range(0, powerUps.Count)], spawnPosition, Quaternion.identity);
-                canSpawn = true;
+                Debug.LogError("No powerups will spawn, because the min and max time values are wrong.");
+                yield break;
             }
+
+            Vector3 spawnPosition = new Vector3(Random.Range(minX, maxX), yPosition, Random.Range(minZ, maxZ));
+            Instantiate(powerUps[Random.Range(0, powerUps.Count)], spawnPosition, Quaternion.identity);
+
+            //Tries to spawn a powerup, if something is already blocking the way, then it retries until it can freely spawn
+            //while (!canSpawn)
+            //{
+            //    Vector3 spawnPosition = new Vector3(Random.Range(minX, maxX), yPosition, Random.Range(minZ, maxZ));
+            //    preventSpawningArray = Physics.OverlapSphere(spawnPosition, collisionCheckRadius, 9);
+
+            //    if (preventSpawningArray.Length <= 0)
+            //    {
+            //        Instantiate(powerUps[Random.Range(0, powerUps.Count)], spawnPosition, Quaternion.identity);
+            //        canSpawn = true;
+            //    }
+            //}
+
+            yield return StartCoroutine(SpawnPowerUp());
         }
     }
 }
