@@ -8,6 +8,7 @@ TagManager:
   - Boat
   - GameHandler
   - PointBundle
+  - Sumo
   layers:
   - Default
   - TransparentFX

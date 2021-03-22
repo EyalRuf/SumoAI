@@ -3,50 +3,84 @@ using System.Collections;
 
 public class KrisAI : SumoBaseAI
 {
-    // Save info about other sumos
-    public SumoBaseAI otherSumo;
-    public Vector3 ArenaCenter = new Vector3(0,0,0);
+    public GameObject FindClosestSumo()
+    {
+        GameObject[] gos;
+        gos = GameObject.FindGameObjectsWithTag("Player");
+
+
+        GameObject closest = null;
+        float distance = Mathf.Infinity;
+        Vector3 position = transform.position;
+
+        foreach (GameObject go in gos)
+        {
+            if (go.Equals(this.gameObject))
+                continue;
+            Vector3 diff = go.transform.position - position;
+            float curDistance = diff.sqrMagnitude;
+            if (curDistance < distance)
+            {
+                closest = go;
+                distance = curDistance;
+            }
+        }
+        return closest;
+    }
+
+    //Find a sumo that's the closest to all sumos - center of the group
+    public GameObject FindGroupedSumo()
+    {
+        GameObject[] gos1;
+        gos1 = GameObject.FindGameObjectsWithTag("Player");
+
+        GameObject grouped = null;
+        float groupDistance = Mathf.Infinity;
+
+        foreach (GameObject go1 in gos1)
+        {
+            if (go1.Equals(this.gameObject))
+                continue;
+            GameObject[] gos2;
+            gos2 = GameObject.FindGameObjectsWithTag("Player");
+            float sumDistance = 0;
+            foreach(GameObject go2 in gos2)
+            {
+                Vector3 diff = go2.transform.position - go1.transform.position;
+                float curDistance = diff.sqrMagnitude;
+                sumDistance += curDistance;
+            }
+            if (groupDistance > sumDistance)
+            {
+                groupDistance = sumDistance;
+                grouped = go1;
+            }
+        }
+        return grouped;
+    }
 
     // Update is called once per frame
     void Update()
     {
-        // get other sumo pos & angle towards
-        Vector2 dest = new Vector2(otherSumo.transform.position.x, otherSumo.transform.position.z);
-        Vector2 currentPos = new Vector2(transform.position.x, transform.position.z);
-                
-        Debug.Log(Vector2.Distance(dest, currentPos));
+        if(FindClosestSumo() == FindGroupedSumo() && !usedPush)
+        {
+            currObjective = AiObjective.push;
+            Debug.Log("dodged group");
+            // get grouped sumo pos & angle towards
+            Vector2 dest = new Vector2(FindClosestSumo().transform.position.x, FindClosestSumo().transform.position.z);
+            Quaternion rotationAway = Quaternion.Inverse(FindClosestSumo().transform.rotation);
+            float angleAway = rotationAway.eulerAngles.y;
 
-        if (Vector2.Distance(dest,currentPos)<10)
-        {
-            Quaternion rotationTowards = Quaternion.LookRotation(otherSumo.transform.position - transform.position);
-            float angleTowards = rotationTowards.eulerAngles.y;
             this.destination = dest;
-            this.rotateToY = angleTowards;
-            currObjective = AiObjective.idle;
-            if (Vector2.Distance(dest, currentPos) < 5)
-            {
-                currObjective = AiObjective.push;
-            }
+            this.rotateToY = angleAway;
         }
-        else if(Vector2.Distance(dest, currentPos) <1 && !usedPush)
+        else if (!usedDodge)
         {
-            Quaternion rotationTowards = Quaternion.LookRotation(ArenaCenter - transform.position);
-            float angleTowards = rotationTowards.eulerAngles.y;
-            this.destination = ArenaCenter;
-            this.rotateToY = angleTowards;
             currObjective = AiObjective.dodge;
         }
         else
         {
-            Quaternion rotationTowards = Quaternion.LookRotation(ArenaCenter - transform.position);
-            float angleTowards = rotationTowards.eulerAngles.y;
-            this.destination = ArenaCenter;
-            this.rotateToY = angleTowards;
             currObjective = AiObjective.idle;
         }
-
-
-
-
     }
 }
