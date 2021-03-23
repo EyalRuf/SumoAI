@@ -7,64 +7,98 @@ public class GameHandler : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] int pointWinRequirement;
+    [SerializeField] float cycleTimeLength;
+
+    [Header("Value is for 1 AI in the ring, then drops by 1 per additionaly AI")]
+    [SerializeField] int pointModifier;
+
+    public bool gameStopped { get; private set; }
     [Space(20)]
 
-    public bool gameStopped;
     [SerializeField] GameObject winBox;
 
-    int numberOfPlayerInRing;
-    float pointModifier = 1;
+    [SerializeField] Transform ringTransform;
+    [SerializeField] LayerMask playerLayerMask;
 
-    private void Update()
+    private void Start()
     {
-        switch (numberOfPlayerInRing)
+        if(pointModifier <= 0)
         {
-            case 0:
-            case 1:
-                pointModifier = 3;
-                break;
-            case 2:
-            case 3:
-                pointModifier = 2;
-                break;
-            case 4:
-            case 5:
-            case 6:
-                pointModifier = 1;
-                break;
-            default:
-                pointModifier = 1;
-                numberOfPlayerInRing = 0;
-                break;
+            Debug.LogError("Point modifier is set to zero or a minus value. It will be set to 3 for now. Please assign it in the inspector accordingly");
+            pointModifier = 3;
         }
+
+        StartCoroutine(PointCycle());
     }
 
-    public void Entered(bool enter)
+    IEnumerator PointCycle()
     {
-        if (enter)
+        yield return new WaitForSeconds(cycleTimeLength);
+
+        if(cycleTimeLength <= 0)
         {
-            numberOfPlayerInRing++;
+            Debug.LogError("Cycle time is equal to zero or a minus value, please change this value accordingly. Points will not be given until this is fixed.");
+            yield break;
         }
-        else
+
+        if (!gameStopped)
         {
-            numberOfPlayerInRing--;
+            Collider[] colliders;
+            List<GameObject> playersInRing = new List<GameObject>();
+            List<GameObject> winners = new List<GameObject>();
+            int resetModifier = pointModifier;
+            pointModifier += 1;
+
+            colliders = Physics.OverlapSphere(ringTransform.position, 7f, playerLayerMask);
+
+            foreach (var playerCol in colliders)
+            {
+                playersInRing.Add(playerCol.gameObject);
+            }
+
+            foreach (var player in playersInRing)
+            {
+                pointModifier--;
+                if (pointModifier < 1)
+                    pointModifier = 1;
+            }
+
+            foreach (var player in playersInRing)
+            {
+                player.GetComponent<Points>().UpdatePoints(pointModifier);
+
+                if (player.GetComponent<Points>().points >= pointWinRequirement)
+                {
+                    winners.Add(player);
+                }
+            }
+
+            WinCheck(winners);
+
+            pointModifier = resetModifier;
         }
+
+        StartCoroutine("PointCycle");
     }
 
-    public int GetModifier()
-    {
-        return (int)pointModifier;
-    }
-
-    public int GetRequirementValue()
+    public int ReturnRequirement()
     {
         return pointWinRequirement;
     }
 
-    public void WinCheck(GameObject winner)
+    public void WinCheck(List<GameObject> winners)
     {
-        winBox.SetActive(true);
-        gameStopped = true;
-        winBox.transform.GetChild(0).GetComponent<Text>().text = "Player " + winner.name + " has Won";
+        if(winners.Count == 1)
+        {
+            winBox.SetActive(true);
+            gameStopped = true;
+            winBox.transform.GetChild(0).GetComponent<Text>().text = "Player " + winners[0].name + " has Won";
+        }
+        else if(winners.Count > 1)
+        {
+            winBox.SetActive(true);
+            gameStopped = true;
+            winBox.transform.GetChild(0).GetComponent<Text>().text = "DRAW!";
+        }
     }
 }

@@ -7,6 +7,7 @@ TagManager:
   - Trigger
   - Boat
   - GameHandler
+  - PointBundle
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,7 @@ TagManager:
   - 
   - PostProcessing
   - IgnoreCollisionCheck
-  - 
+  - Player
   - 
   - 
   - 
@@ -43,4 +44,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: UI
+    uniqueID: 1371039857
     locked: 0
