@@ -1705,11 +1705,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 228745345}
     m_Modifications:
+    - target: {fileID: 3486317202216964060, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1252d70f3d847b440a75bfa704cb650d, type: 2}
     - target: {fileID: 3486317203065853827, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 2b78d8bc49a09c74180e34510a4503ad, type: 2}
+      objectReference: {fileID: 2100000, guid: 1252d70f3d847b440a75bfa704cb650d, type: 2}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: otherSumos.Array.size
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
       propertyPath: otherSumo
@@ -1718,7 +1728,7 @@ PrefabInstance:
     - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
       propertyPath: currObjective
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
@@ -1729,6 +1739,71 @@ PrefabInstance:
         type: 3}
       propertyPath: destination.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: originalMat
+      value: 
+      objectReference: {fileID: 2100000, guid: 1252d70f3d847b440a75bfa704cb650d, type: 2}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: dodgeMat
+      value: 
+      objectReference: {fileID: 2100000, guid: f12df0f6b8464274aa22130074b73e3c, type: 2}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: objectiveCircle
+      value: 
+      objectReference: {fileID: 4485564536029659}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: minSumoRangeForGeneralEngagement
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: distanceForAttack
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: distanceForDefence
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: opponentSumoTargetingOffset
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: otherSumos.Array.data[0]
+      value: 
+      objectReference: {fileID: 3486317203003174317}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: otherSumos.Array.data[1]
+      value: 
+      objectReference: {fileID: 1225569305}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: otherSumos.Array.data[2]
+      value: 
+      objectReference: {fileID: 1472566490}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: otherSumos.Array.data[3]
+      value: 
+      objectReference: {fileID: 283506276}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: otherSumos.Array.data[4]
+      value: 
+      objectReference: {fileID: 1739813928}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: pushForce
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 3486317203065853829, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
@@ -2436,7 +2511,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 30f1736f10c1f0249bb4da99ef8ba196, type: 2}
+      objectReference: {fileID: 2100000, guid: e0d6714df07d3c94eb6c421922ad8f9b, type: 2}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: otherSumos.Array.size
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
       propertyPath: otherSumo
@@ -2445,7 +2525,82 @@ PrefabInstance:
     - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
       propertyPath: currObjective
-      value: 1
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: originalMat
+      value: 
+      objectReference: {fileID: 2100000, guid: e0d6714df07d3c94eb6c421922ad8f9b, type: 2}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: dodgeMat
+      value: 
+      objectReference: {fileID: 2100000, guid: 6773309ff8cd5fb45b97220997433fd1, type: 2}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: destination.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: destination.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: objectiveCircle
+      value: 
+      objectReference: {fileID: 4485564536029659}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: minSumoRangeForGeneralEngagement
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: distanceForAttack
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: distanceForDefence
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: opponentSumoTargetingOffset
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: otherSumos.Array.data[0]
+      value: 
+      objectReference: {fileID: 3486317203003174317}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: otherSumos.Array.data[1]
+      value: 
+      objectReference: {fileID: 1225569305}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: otherSumos.Array.data[2]
+      value: 
+      objectReference: {fileID: 1472566490}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: otherSumos.Array.data[3]
+      value: 
+      objectReference: {fileID: 1739813928}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: otherSumos.Array.data[4]
+      value: 
+      objectReference: {fileID: 215992108}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: pushForce
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 3486317203065853829, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
@@ -11360,11 +11515,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 228745345}
     m_Modifications:
+    - target: {fileID: 3486317202216964060, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1252d70f3d847b440a75bfa704cb650d, type: 2}
     - target: {fileID: 3486317203065853827, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 2b78d8bc49a09c74180e34510a4503ad, type: 2}
+      objectReference: {fileID: 2100000, guid: 30f1736f10c1f0249bb4da99ef8ba196, type: 2}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: otherSumos.Array.size
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
       propertyPath: otherSumo
@@ -11373,7 +11538,82 @@ PrefabInstance:
     - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
       propertyPath: currObjective
-      value: 1
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: originalMat
+      value: 
+      objectReference: {fileID: 2100000, guid: 30f1736f10c1f0249bb4da99ef8ba196, type: 2}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: dodgeMat
+      value: 
+      objectReference: {fileID: 2100000, guid: 2b24aebd13f05dd428dfa7bf0fe9cdeb, type: 2}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: destination.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: destination.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: objectiveCircle
+      value: 
+      objectReference: {fileID: 4485564536029659}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: minSumoRangeForGeneralEngagement
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: distanceForAttack
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: distanceForDefence
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: opponentSumoTargetingOffset
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: otherSumos.Array.data[0]
+      value: 
+      objectReference: {fileID: 3486317203003174317}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: otherSumos.Array.data[1]
+      value: 
+      objectReference: {fileID: 1472566490}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: otherSumos.Array.data[2]
+      value: 
+      objectReference: {fileID: 283506276}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: otherSumos.Array.data[3]
+      value: 
+      objectReference: {fileID: 1739813928}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: otherSumos.Array.data[4]
+      value: 
+      objectReference: {fileID: 215992108}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: pushForce
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 3486317203065853829, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
@@ -13885,11 +14125,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 228745345}
     m_Modifications:
+    - target: {fileID: 3486317202216964060, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e0d6714df07d3c94eb6c421922ad8f9b, type: 2}
     - target: {fileID: 3486317203065853827, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: e4aa1168aee1b4f9b839f005f727855c, type: 2}
+      objectReference: {fileID: 2100000, guid: 1252d70f3d847b440a75bfa704cb650d, type: 2}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: otherSumos.Array.size
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
       propertyPath: otherSumo
@@ -13898,7 +14148,82 @@ PrefabInstance:
     - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
       propertyPath: currObjective
-      value: 1
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: originalMat
+      value: 
+      objectReference: {fileID: 2100000, guid: 1252d70f3d847b440a75bfa704cb650d, type: 2}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: dodgeMat
+      value: 
+      objectReference: {fileID: 2100000, guid: f12df0f6b8464274aa22130074b73e3c, type: 2}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: destination.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: destination.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: objectiveCircle
+      value: 
+      objectReference: {fileID: 4485564536029659}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: minSumoRangeForGeneralEngagement
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: distanceForAttack
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: distanceForDefence
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: opponentSumoTargetingOffset
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: otherSumos.Array.data[0]
+      value: 
+      objectReference: {fileID: 3486317203003174317}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: otherSumos.Array.data[1]
+      value: 
+      objectReference: {fileID: 1225569305}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: otherSumos.Array.data[2]
+      value: 
+      objectReference: {fileID: 283506276}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: otherSumos.Array.data[3]
+      value: 
+      objectReference: {fileID: 1739813928}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: otherSumos.Array.data[4]
+      value: 
+      objectReference: {fileID: 215992108}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: pushForce
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 3486317203065853829, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
@@ -17215,11 +17540,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 228745345}
     m_Modifications:
+    - target: {fileID: 3486317202216964060, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1252d70f3d847b440a75bfa704cb650d, type: 2}
     - target: {fileID: 3486317203065853827, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: e4aa1168aee1b4f9b839f005f727855c, type: 2}
+      objectReference: {fileID: 2100000, guid: e0d6714df07d3c94eb6c421922ad8f9b, type: 2}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: otherSumos.Array.size
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
       propertyPath: otherSumo
@@ -17228,7 +17563,82 @@ PrefabInstance:
     - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
       propertyPath: currObjective
-      value: 1
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: originalMat
+      value: 
+      objectReference: {fileID: 2100000, guid: e0d6714df07d3c94eb6c421922ad8f9b, type: 2}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: dodgeMat
+      value: 
+      objectReference: {fileID: 2100000, guid: 6773309ff8cd5fb45b97220997433fd1, type: 2}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: destination.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: destination.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: objectiveCircle
+      value: 
+      objectReference: {fileID: 4485564536029659}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: minSumoRangeForGeneralEngagement
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: distanceForAttack
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: distanceForDefence
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: opponentSumoTargetingOffset
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: otherSumos.Array.data[0]
+      value: 
+      objectReference: {fileID: 3486317203003174317}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: otherSumos.Array.data[1]
+      value: 
+      objectReference: {fileID: 1225569305}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: otherSumos.Array.data[2]
+      value: 
+      objectReference: {fileID: 1472566490}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: otherSumos.Array.data[3]
+      value: 
+      objectReference: {fileID: 283506276}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: otherSumos.Array.data[4]
+      value: 
+      objectReference: {fileID: 215992108}
+    - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
+        type: 3}
+      propertyPath: pushForce
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 3486317203065853829, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
@@ -21454,7 +21864,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1380675526750565}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.09, z: 0}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0}
   m_LocalScale: {x: 20, y: 20, z: 0.20000002}
   m_Children: []
   m_Father: {fileID: 2000778121}
@@ -21729,17 +22139,29 @@ MonoBehaviour:
   actionLocked: 0
   movementSpeed: 3
   rotationSpeed: 2.5
-  usedPush: 0
+  isPushing: 0
   pushCD: 3
   pushDuration: 1
-  pushForce: 15
+  pushForce: 25
   usedDodge: 0
   dodgeCD: 3
   dodgeDuration: 0.5
-  currObjective: 1
-  destination: {x: -7.51, y: -7.53}
+  originalMat: {fileID: 2100000, guid: 30f1736f10c1f0249bb4da99ef8ba196, type: 2}
+  dodgeMat: {fileID: 2100000, guid: 2b24aebd13f05dd428dfa7bf0fe9cdeb, type: 2}
+  currObjective: 2
+  destination: {x: 0, y: 0}
   rotateToY: 0
-  otherSumo: {fileID: 1225569305}
+  otherSumos:
+  - {fileID: 1225569305}
+  - {fileID: 1472566490}
+  - {fileID: 283506276}
+  - {fileID: 1739813928}
+  - {fileID: 215992108}
+  objectiveCircle: {fileID: 4485564536029659}
+  minSumoRangeForGeneralEngagement: 6
+  distanceForAttack: 4
+  distanceForDefence: 5
+  opponentSumoTargetingOffset: 20
 --- !u!114 &6746950775159915072
 MonoBehaviour:
   m_ObjectHideFlags: 0
