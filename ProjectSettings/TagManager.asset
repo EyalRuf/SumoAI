@@ -8,6 +8,7 @@ TagManager:
   - Boat
   - GameHandler
   - PointBundle
+  - Light
   layers:
   - Default
   - TransparentFX
