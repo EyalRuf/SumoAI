@@ -62,7 +62,7 @@ public class KrisAI : SumoBaseAI
     // Update is called once per frame
     void Update()
     {
-        if(FindClosestSumo() == FindGroupedSumo() && !usedPush)
+        if(FindClosestSumo() == FindGroupedSumo() && !isPushing)
         {
             currObjective = AiObjective.push;
             Debug.Log("dodged group");
