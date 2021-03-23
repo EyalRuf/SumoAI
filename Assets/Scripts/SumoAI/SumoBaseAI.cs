@@ -22,7 +22,7 @@ public class SumoBaseAI : Sumo
             MoveTowards(new Vector3(destination.x, 0, destination.y));
             RotateTo(rotateToY);
 
-            if (currObjective == AiObjective.push && !usedPush)
+            if (currObjective == AiObjective.push && !isPushing)
             {
                 Push();
             }
