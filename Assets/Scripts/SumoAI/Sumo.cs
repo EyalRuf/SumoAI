@@ -5,6 +5,7 @@ public class Sumo : MonoBehaviour
 {
     private Rigidbody rb;
     private Collider coll;
+    private MeshRenderer mr;
 
     public bool actionLocked;
 
@@ -15,7 +16,7 @@ public class Sumo : MonoBehaviour
     public float rotationSpeed;
 
     [Header("Pushing")]
-    public bool usedPush;
+    public bool isPushing;
     public float pushCD;
     public float pushDuration;
     public float pushForce;
@@ -24,12 +25,15 @@ public class Sumo : MonoBehaviour
     public bool usedDodge;
     public float dodgeCD;
     public float dodgeDuration;
-
+    public Material originalMat;
+    public Material dodgeMat;
+    
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         rb = GetComponent<Rigidbody>();
         coll = GetComponent<CapsuleCollider>();
+        mr = GetComponent<MeshRenderer>();
     }
 
     public void MoveTowards(Vector3 destination)
@@ -47,6 +51,7 @@ public class Sumo : MonoBehaviour
     {
         // Doing the dodge
         coll.enabled = false;
+        mr.material = dodgeMat;
 
         // State changes
         usedDodge = true;
@@ -59,7 +64,7 @@ public class Sumo : MonoBehaviour
         rb.AddForce(transform.forward * pushForce, ForceMode.Impulse);
 
         // State changes
-        usedPush = true;
+        isPushing = true;
         StartCoroutine(ActionLockPush(pushDuration));
         StartCoroutine(PushCooldown());
     }
@@ -68,20 +73,20 @@ public class Sumo : MonoBehaviour
     {
         actionLocked = true;
         yield return new WaitForSeconds(duration);
-        StartCoroutine(ActionLock());
+        ActionUnlock();
     }
 
     IEnumerator ActionLockDodge(float duration)
     {
         actionLocked = true;
         yield return new WaitForSeconds(duration);
+        mr.material = originalMat;
         coll.enabled = true;
-        StartCoroutine(ActionLock());
+        ActionUnlock();
     }
 
-    IEnumerator ActionLock()
+    void ActionUnlock()
     {
-        yield return null;
         actionLocked = false;
         rb.angularVelocity = Vector3.zero;
     }
@@ -95,6 +100,6 @@ public class Sumo : MonoBehaviour
     IEnumerator PushCooldown()
     {
         yield return new WaitForSeconds(pushCD);
-        usedPush = false;
+        isPushing = false;
     }
 }
