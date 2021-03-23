@@ -1387,7 +1387,7 @@ PrefabInstance:
     - target: {fileID: 892657117409123681, guid: 63bbb2dc064033e46952fbc34993d954,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.14
+      value: -6.76
       objectReference: {fileID: 0}
     - target: {fileID: 892657117409123681, guid: 63bbb2dc064033e46952fbc34993d954,
         type: 3}
@@ -1548,7 +1548,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1437284088519069049}
   m_LocalRotation: {x: -0, y: -0.86207247, z: -0, w: 0.5067851}
-  m_LocalPosition: {x: 10.46, y: 0.95, z: 5.13}
+  m_LocalPosition: {x: -1.07, y: 0.95, z: -1.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1437284086663812381}
@@ -1695,7 +1695,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionLocked: 0
-  movementSpeed: 3
+  movementSpeed: 0
   rotationSpeed: 2.5
   usedPush: 0
   pushCD: 3
@@ -1722,6 +1722,7 @@ GameObject:
   - component: {fileID: 6995251252037862903}
   - component: {fileID: 6995251252037862898}
   - component: {fileID: 6995251252037862857}
+  - component: {fileID: 6995251252037862858}
   m_Layer: 10
   m_Name: Sumo_EyalAI
   m_TagString: Player
@@ -1742,7 +1743,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointCount: {fileID: 1614928477}
---- !u!114 &6995251252037862898
+--- !u!114 &6995251252037862858
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1750,6 +1751,23 @@ MonoBehaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6995251252037862856}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8927426fd22b5124ea080d7b8fc3c8d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isRight: 0
+  desiredLocation: {x: 2.55, y: 0.95, z: -8.53}
+  leftPosition: {x: -4.6, y: 0.95, z: 3.84}
+  rightPosition: {x: 2.84, y: 0.95, z: -9.04}
+  speed: 12
+--- !u!114 &6995251252037862898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6995251252037862856}
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c00dcac0ef782c542a03180eaaa0b33e, type: 3}
   m_Name: 
@@ -1775,14 +1793,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6995251252037862856}
-  m_LocalRotation: {x: -0, y: 0.4998265, z: -0, w: 0.8661256}
-  m_LocalPosition: {x: -4.6, y: 0.95, z: 3.84}
+  m_LocalRotation: {x: -0, y: -0.19958775, z: -0, w: 0.97988}
+  m_LocalPosition: {x: 2.84, y: 0.95, z: -9.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6995251253965610412}
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 59.977, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -23.026001, z: 0}
 --- !u!33 &6995251252037862900
 MeshFilter:
   m_ObjectHideFlags: 0

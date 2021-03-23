@@ -38,7 +38,7 @@ public class Test : MonoBehaviour
 
     IEnumerator Move()
     {
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(0.1f);
 
         if (!isRight)
         {
