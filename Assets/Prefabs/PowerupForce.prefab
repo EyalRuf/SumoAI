@@ -9,80 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4015976259989596317}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca4a2869254051447a9fb61d14897f2f, type: 3}
+  m_Script: {fileID: 11500000, guid: cac59bff604b2894c86c58b935797a52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forceGain: 5
-  duration: 10
---- !u!1001 &2810372824978255636
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 5595632414579426296}
-    m_Modifications:
-    - target: {fileID: 6624787459008850503, guid: d77d38fec9dd3354cac99fcccfc445e5,
-        type: 3}
-      propertyPath: m_Name
-      value: SushiTray
-      objectReference: {fileID: 0}
-    - target: {fileID: 8820494017053848820, guid: d77d38fec9dd3354cac99fcccfc445e5,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -1.95
-      objectReference: {fileID: 0}
-    - target: {fileID: 8820494017053848820, guid: d77d38fec9dd3354cac99fcccfc445e5,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8820494017053848820, guid: d77d38fec9dd3354cac99fcccfc445e5,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.256
-      objectReference: {fileID: 0}
-    - target: {fileID: 8820494017053848820, guid: d77d38fec9dd3354cac99fcccfc445e5,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8820494017053848820, guid: d77d38fec9dd3354cac99fcccfc445e5,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8820494017053848820, guid: d77d38fec9dd3354cac99fcccfc445e5,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8820494017053848820, guid: d77d38fec9dd3354cac99fcccfc445e5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8820494017053848820, guid: d77d38fec9dd3354cac99fcccfc445e5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8820494017053848820, guid: d77d38fec9dd3354cac99fcccfc445e5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8820494017053848820, guid: d77d38fec9dd3354cac99fcccfc445e5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8820494017053848820, guid: d77d38fec9dd3354cac99fcccfc445e5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: d77d38fec9dd3354cac99fcccfc445e5, type: 3}
+  forceGain: 10
+  duration: 7.5
 --- !u!1001 &4739181966007344793
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -145,11 +76,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8344117857266685942, guid: 63bbb2dc064033e46952fbc34993d954,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8538659700644443652, guid: 63bbb2dc064033e46952fbc34993d954,
         type: 3}
       propertyPath: m_Name
@@ -160,12 +86,6 @@ PrefabInstance:
 --- !u!1 &4015976259989596317 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8538659700644443652, guid: 63bbb2dc064033e46952fbc34993d954,
-    type: 3}
-  m_PrefabInstance: {fileID: 4739181966007344793}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &5595632414579426296 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 892657117409123681, guid: 63bbb2dc064033e46952fbc34993d954,
     type: 3}
   m_PrefabInstance: {fileID: 4739181966007344793}
   m_PrefabAsset: {fileID: 0}
