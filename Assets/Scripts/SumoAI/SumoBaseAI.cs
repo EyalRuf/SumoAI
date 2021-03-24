@@ -15,6 +15,15 @@ public class SumoBaseAI : Sumo
         PerformObjective();
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(currObjective == AiObjective.push)
+        {
+            aud.soundEmitter.clip = aud.impact;
+            aud.soundEmitter.Play();
+        }
+    }
+
     void PerformObjective ()
     {
         if (!actionLocked)

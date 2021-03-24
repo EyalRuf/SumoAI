@@ -95,7 +95,7 @@ public class RichardAI : MonoBehaviour
             {
                 foreach (var potentialPowerUp in objectsFound) //Checking if any of the scanned objects are powerups
                 {
-                    if (potentialPowerUp.gameObject.CompareTag("PowerUp"))
+                    if (potentialPowerUp.gameObject.TryGetComponent(out Powerup poweruppy))
                     {
                         powerUpsFound.Add(potentialPowerUp.gameObject);
                         powerUpsInMap++;
