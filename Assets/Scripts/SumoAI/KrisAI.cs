@@ -74,7 +74,7 @@ public class KrisAI : SumoBaseAI
             this.destination = dest;
             this.rotateToY = angleAway;
         }
-        else if (!usedDodge)
+        else if (!isDodging)
         {
             currObjective = AiObjective.dodge;
         }

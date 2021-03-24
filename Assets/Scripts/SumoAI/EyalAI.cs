@@ -65,7 +65,7 @@ public class EyalAI : SumoBaseAI
         // Used push and is rotated my way (or close enough - within the angle offset) -> might hit me
         if (targetSumo.isPushing && Quaternion.Angle(targetCurrRot, targetRotToMe) <= opponentSumoTargetingOffset)
         {
-            if (!usedDodge)
+            if (!isDodging)
             {
                 currObjective = AiObjective.dodge;
                 defenceFlag = true;
@@ -79,12 +79,10 @@ public class EyalAI : SumoBaseAI
 
         if (defenceFlag)
         {
-            if (name == "Eyal")
-                Debug.Log("Defensive");
+                //Debug.Log("Defensive");
         } else
         {
-            if (name == "Eyal")
-                Debug.Log("Agressive");
+                //Debug.Log("Agressive");
 
             SumosWithinRange = GetSumoWithinRange(otherSumos, distanceForAttack);
             targetSumo = GetSumoWithMostPoints(SumosWithinRange);
