@@ -4368,16 +4368,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 311306656336827507, guid: 7db806e58dec91140be340abbf6640ab,
-        type: 3}
-      propertyPath: m_RenderMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 311306656336827507, guid: 7db806e58dec91140be340abbf6640ab,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 311306656336827508, guid: 7db806e58dec91140be340abbf6640ab,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4483,21 +4473,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 311306656752806797, guid: 7db806e58dec91140be340abbf6640ab,
-        type: 3}
-      propertyPath: m_Text
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 311306657746533966, guid: 7db806e58dec91140be340abbf6640ab,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4034042268814618228, guid: 7db806e58dec91140be340abbf6640ab,
-        type: 3}
-      propertyPath: m_Color.a
-      value: 0.09803922
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7db806e58dec91140be340abbf6640ab, type: 3}
 --- !u!114 &530973130 stripped
@@ -4563,6 +4538,18 @@ MonoBehaviour:
 --- !u!114 &530973135 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 311306656481705972, guid: 7db806e58dec91140be340abbf6640ab,
+    type: 3}
+  m_PrefabInstance: {fileID: 530973129}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &530973136 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2544594083270982448, guid: 7db806e58dec91140be340abbf6640ab,
     type: 3}
   m_PrefabInstance: {fileID: 530973129}
   m_PrefabAsset: {fileID: 0}
@@ -22133,7 +22120,7 @@ GameObject:
   - component: {fileID: 4485564536029659}
   - component: {fileID: 33251357425911325}
   - component: {fileID: 23840050275465379}
-  - component: {fileID: 1380675526750566}
+  - component: {fileID: 1380675526750567}
   m_Layer: 0
   m_Name: ObjectiveCircle
   m_TagString: Ring
@@ -22141,8 +22128,8 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 8
   m_IsActive: 1
---- !u!64 &1380675526750566
-MeshCollider:
+--- !u!135 &1380675526750567
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -22150,11 +22137,10 @@ MeshCollider:
   m_GameObject: {fileID: 1380675526750565}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 74829891f33e52245be63a4d13e125fb, type: 2}
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 0.50000024
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &4485564536029659
 Transform:
   m_ObjectHideFlags: 0
@@ -22288,6 +22274,16 @@ PrefabInstance:
       propertyPath: ringTransform
       value: 
       objectReference: {fileID: 4485564536029659}
+    - target: {fileID: 1706406914214676765, guid: af13623b698c5ac48a8992bfd09ef9e4,
+        type: 3}
+      propertyPath: winText
+      value: 
+      objectReference: {fileID: 530973136}
+    - target: {fileID: 1706406914214676765, guid: af13623b698c5ac48a8992bfd09ef9e4,
+        type: 3}
+      propertyPath: ringCollider
+      value: 
+      objectReference: {fileID: 1380675526750567}
     - target: {fileID: 1706406914214676766, guid: af13623b698c5ac48a8992bfd09ef9e4,
         type: 3}
       propertyPath: m_Name
@@ -22365,6 +22361,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af13623b698c5ac48a8992bfd09ef9e4, type: 3}
+--- !u!114 &1668082601545418872 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1706406914214676765, guid: af13623b698c5ac48a8992bfd09ef9e4,
+    type: 3}
+  m_PrefabInstance: {fileID: 1668082601545418871}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3afcc2c1461cc84db090ca7d5f326e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!136 &3486317201619108696
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -22482,7 +22490,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &3486317201619108711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22511,13 +22519,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aud: {fileID: 3486317201619108714}
   actionLocked: 0
-  movementSpeed: 3
-  rotationSpeed: 2.5
+  movementSpeed: 5
+  rotationSpeed: 3.5
   isPushing: 0
-  pushCD: 3
-  pushDuration: 1
+  pushCD: 2.5
+  pushDuration: 1.5
   pushForce: 25
-  usedDodge: 0
+  isDodging: 0
   dodgeCD: 3
   dodgeDuration: 0.5
   originalMat: {fileID: 2100000, guid: 30f1736f10c1f0249bb4da99ef8ba196, type: 2}
@@ -22768,13 +22776,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aud: {fileID: 3486317201841873833}
   actionLocked: 0
-  movementSpeed: 3
-  rotationSpeed: 2.5
+  movementSpeed: 5
+  rotationSpeed: 3.5
   isPushing: 0
-  pushCD: 3
-  pushDuration: 1
+  pushCD: 2.5
+  pushDuration: 1.5
   pushForce: 25
-  usedDodge: 0
+  isDodging: 0
   dodgeCD: 3
   dodgeDuration: 0.5
   originalMat: {fileID: 2100000, guid: 30f1736f10c1f0249bb4da99ef8ba196, type: 2}
@@ -22782,6 +22790,8 @@ MonoBehaviour:
   currObjective: 2
   destination: {x: 0, y: 0}
   rotateToY: 0
+  gameHandler: {fileID: 1668082601545418872}
+  closestSumo: {fileID: 0}
 --- !u!82 &3486317201841873832
 AudioSource:
   m_ObjectHideFlags: 0
@@ -23104,13 +23114,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aud: {fileID: 3486317202420900764}
   actionLocked: 0
-  movementSpeed: 3
-  rotationSpeed: 2.5
+  movementSpeed: 5
+  rotationSpeed: 3.5
   isPushing: 0
-  pushCD: 3
-  pushDuration: 1
+  pushCD: 2.5
+  pushDuration: 1.5
   pushForce: 25
-  usedDodge: 0
+  isDodging: 0
   dodgeCD: 3
   dodgeDuration: 0.5
   originalMat: {fileID: 2100000, guid: e0d6714df07d3c94eb6c421922ad8f9b, type: 2}
@@ -23534,13 +23544,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aud: {fileID: 3486317202812379621}
   actionLocked: 0
-  movementSpeed: 3
-  rotationSpeed: 2.5
+  movementSpeed: 5
+  rotationSpeed: 3.5
   isPushing: 0
-  pushCD: 3
-  pushDuration: 1
+  pushCD: 2.5
+  pushDuration: 1.5
   pushForce: 25
-  usedDodge: 0
+  isDodging: 0
   dodgeCD: 3
   dodgeDuration: 0.5
   originalMat: {fileID: 2100000, guid: e0d6714df07d3c94eb6c421922ad8f9b, type: 2}
@@ -23776,7 +23786,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!82 &3486317202876731544
 AudioSource:
   m_ObjectHideFlags: 0
@@ -23996,13 +24006,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aud: {fileID: 3486317202876731545}
   actionLocked: 0
-  movementSpeed: 3
-  rotationSpeed: 2.5
+  movementSpeed: 5
+  rotationSpeed: 3.5
   isPushing: 0
-  pushCD: 3
-  pushDuration: 1
+  pushCD: 2.5
+  pushDuration: 1.5
   pushForce: 25
-  usedDodge: 0
+  isDodging: 0
   dodgeCD: 3
   dodgeDuration: 0.5
   originalMat: {fileID: 2100000, guid: 1252d70f3d847b440a75bfa704cb650d, type: 2}
@@ -24258,13 +24268,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aud: {fileID: 3486317203003174297}
   actionLocked: 0
-  movementSpeed: 3
-  rotationSpeed: 2.5
+  movementSpeed: 5
+  rotationSpeed: 3.5
   isPushing: 0
-  pushCD: 3
-  pushDuration: 1
+  pushCD: 2.5
+  pushDuration: 1.5
   pushForce: 25
-  usedDodge: 0
+  isDodging: 0
   dodgeCD: 3
   dodgeDuration: 0.5
   originalMat: {fileID: 2100000, guid: 30f1736f10c1f0249bb4da99ef8ba196, type: 2}
