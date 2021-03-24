@@ -131,8 +131,8 @@ public class JeroAI : SumoBaseAI
 
     void GetPowerUps()
     {
-        pointPower = GameObject.Find("PowerupPoints(Clone)");
-        if(pointPowerUps.Contains(pointPower))
+        pointPower = FindObjectOfType<PowerUpPointBundle>()?.gameObject;
+        if(pointPower != null && pointPowerUps.Contains(pointPower))
         {
             pointPowerUps.Add(pointPower);
         }

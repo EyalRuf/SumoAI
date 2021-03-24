@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8234076264019239895}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f03d1cfe829d3a847a8702d5d54716c7, type: 3}
+  m_Script: {fileID: 11500000, guid: 182511dfaca38f746a6622408bfe97bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pointCount: 10
@@ -88,7 +88,7 @@ PrefabInstance:
     - target: {fileID: 8538659700644443652, guid: 63bbb2dc064033e46952fbc34993d954,
         type: 3}
       propertyPath: m_Name
-      value: PowerupPoints
+      value: PowerupPointsK
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8344117857266685942, guid: 63bbb2dc064033e46952fbc34993d954, type: 3}
