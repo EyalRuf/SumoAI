@@ -53,15 +53,6 @@ public class JeroAI : SumoBaseAI
             }
         }
 
-        foreach(GameObject pointPower in pointPowerUps)
-        {
-            if (Vector3.Distance(pointPower.transform.position, transform.position) < 1f)
-            {
-                closestPointPowerUp = pointPower;
-                
-            }
-        }
-
         if (ToRing)
         {
             this.rotateToY = Quaternion.LookRotation(ring.transform.position - transform.position).eulerAngles.y;
@@ -135,6 +126,13 @@ public class JeroAI : SumoBaseAI
         if(pointPower != null && pointPowerUps.Contains(pointPower))
         {
             pointPowerUps.Add(pointPower);
+            foreach (GameObject power in pointPowerUps)
+            {
+                if (Vector3.Distance(pointPower.transform.position, transform.position) < 1f)
+                {
+                    closestPointPowerUp = power;
+                }
+            }
         }
     }
 
