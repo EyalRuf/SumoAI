@@ -63,13 +63,15 @@ public class GameHandler : MonoBehaviour
                     pointModifier = 1;
             }
 
-            foreach (var player in playersInRing)
+
+            List<Sumo> players = new List<Sumo>(FindObjectsOfType<Sumo>());
+            foreach (var player in players)
             {
                 player.GetComponent<Points>().UpdatePoints(pointModifier);
 
                 if (player.GetComponent<Points>().points >= pointWinRequirement)
                 {
-                    winners.Add(player);
+                    winners.Add(player.gameObject);
                 }
             }
 

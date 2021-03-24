@@ -4305,6 +4305,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 311306656752806797, guid: 7db806e58dec91140be340abbf6640ab,
+        type: 3}
+      propertyPath: m_Text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 311306657746533966, guid: 7db806e58dec91140be340abbf6640ab,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4034042268814618228, guid: 7db806e58dec91140be340abbf6640ab,
         type: 3}
       propertyPath: m_Color.a
@@ -5703,6 +5713,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4994570558225074959, guid: 6e450cdaa124c1f4cb05773321267be3,
     type: 3}
   m_PrefabInstance: {fileID: 646342080}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &652364526 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 311306657746533966, guid: 7db806e58dec91140be340abbf6640ab,
+    type: 3}
+  m_PrefabInstance: {fileID: 530973129}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &659077364
 PrefabInstance:
@@ -21114,7 +21130,7 @@ MonoBehaviour:
   pointWinRequirement: 50
   cycleTimeLength: 1
   pointModifier: 1
-  winBox: {fileID: 0}
+  winBox: {fileID: 652364526}
   ringTransform: {fileID: 4485564536029659}
   playerLayerMask:
     serializedVersion: 2
@@ -21286,38 +21302,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &3486317201619108700
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3486317201619108710}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c00dcac0ef782c542a03180eaaa0b33e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actionLocked: 0
-  movementSpeed: 3
-  rotationSpeed: 2.5
-  isPushing: 0
-  pushCD: 3
-  pushDuration: 1
-  pushForce: 25
-  usedDodge: 0
-  dodgeCD: 3
-  dodgeDuration: 0.5
-  originalMat: {fileID: 2100000, guid: 1252d70f3d847b440a75bfa704cb650d, type: 2}
-  dodgeMat: {fileID: 2100000, guid: f12df0f6b8464274aa22130074b73e3c, type: 2}
-  currObjective: 2
-  destination: {x: 0, y: 0}
-  rotateToY: 0
-  objectiveCircle: {fileID: 4485564536029659}
-  minSumoRangeForGeneralEngagement: 6
-  distanceForAttack: 4
-  distanceForDefence: 5
-  opponentSumoTargetingOffset: 20
 --- !u!4 &3486317201619108701
 Transform:
   m_ObjectHideFlags: 0
@@ -21347,8 +21331,9 @@ GameObject:
   - component: {fileID: 3486317201619108699}
   - component: {fileID: 3486317201619108696}
   - component: {fileID: 3486317201619108697}
-  - component: {fileID: 3486317201619108700}
   - component: {fileID: 1472566492}
+  - component: {fileID: 3486317201619108712}
+  - component: {fileID: 3486317201619108711}
   m_Layer: 10
   m_Name: Razvan
   m_TagString: Player
@@ -21356,6 +21341,47 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &3486317201619108711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3486317201619108710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3baf0e195bf2794cb1ae336fc816d8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerUpSearchRadius: 6
+  ForgetPowerUpDistance: 10
+--- !u!114 &3486317201619108712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3486317201619108710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0afd297433f326f4c956db39f228a4bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionLocked: 0
+  movementSpeed: 3
+  rotationSpeed: 2.5
+  isPushing: 0
+  pushCD: 3
+  pushDuration: 1
+  pushForce: 25
+  usedDodge: 0
+  dodgeCD: 3
+  dodgeDuration: 0.5
+  originalMat: {fileID: 2100000, guid: 30f1736f10c1f0249bb4da99ef8ba196, type: 2}
+  dodgeMat: {fileID: 2100000, guid: 2b24aebd13f05dd428dfa7bf0fe9cdeb, type: 2}
+  currObjective: 2
+  destination: {x: 0, y: 0}
+  rotateToY: 0
 --- !u!136 &3486317201841873816
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -21478,7 +21504,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3486317201841873830}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 63c621bed0a693f4ea631811f3254293, type: 3}
   m_Name: 
@@ -21714,8 +21740,8 @@ MonoBehaviour:
   usedDodge: 0
   dodgeCD: 3
   dodgeDuration: 0.5
-  originalMat: {fileID: 0}
-  dodgeMat: {fileID: 0}
+  originalMat: {fileID: 2100000, guid: e0d6714df07d3c94eb6c421922ad8f9b, type: 2}
+  dodgeMat: {fileID: 2100000, guid: 6773309ff8cd5fb45b97220997433fd1, type: 2}
   currObjective: 2
   destination: {x: 0, y: 0}
   rotateToY: 0
@@ -21984,6 +22010,7 @@ GameObject:
   - component: {fileID: 3486317202812379619}
   - component: {fileID: 3486317202812379618}
   - component: {fileID: 283506279}
+  - component: {fileID: 3486317202812379615}
   - component: {fileID: 3486317202812379614}
   m_Layer: 10
   m_Name: Richard
@@ -22001,7 +22028,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 3486317202812379613}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c00dcac0ef782c542a03180eaaa0b33e, type: 3}
+  m_Script: {fileID: 11500000, guid: b3baf0e195bf2794cb1ae336fc816d8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerUpSearchRadius: 6
+  ForgetPowerUpDistance: 10
+--- !u!114 &3486317202812379615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3486317202812379613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0afd297433f326f4c956db39f228a4bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   actionLocked: 0
@@ -22014,16 +22055,11 @@ MonoBehaviour:
   usedDodge: 0
   dodgeCD: 3
   dodgeDuration: 0.5
-  originalMat: {fileID: 2100000, guid: 30f1736f10c1f0249bb4da99ef8ba196, type: 2}
-  dodgeMat: {fileID: 2100000, guid: 2b24aebd13f05dd428dfa7bf0fe9cdeb, type: 2}
+  originalMat: {fileID: 2100000, guid: e0d6714df07d3c94eb6c421922ad8f9b, type: 2}
+  dodgeMat: {fileID: 2100000, guid: 6773309ff8cd5fb45b97220997433fd1, type: 2}
   currObjective: 2
   destination: {x: 0, y: 0}
   rotateToY: 0
-  objectiveCircle: {fileID: 4485564536029659}
-  minSumoRangeForGeneralEngagement: 6
-  distanceForAttack: 4
-  distanceForDefence: 5
-  opponentSumoTargetingOffset: 20
 --- !u!23 &3486317202812379616
 MeshRenderer:
   m_ObjectHideFlags: 0
