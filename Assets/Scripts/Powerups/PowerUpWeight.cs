@@ -7,7 +7,12 @@ public class PowerUpWeight : Powerup
     [Header("Settings")]
     [SerializeField] float weightGain;
     [SerializeField] float duration;
+    AudioSource pickUpSound;
 
+    private void Start()
+    {
+        pickUpSound = GetComponent<AudioSource>();
+    }
 
     protected override void OnSumoCollision(Sumo sumo)
     {
@@ -15,6 +20,7 @@ public class PowerUpWeight : Powerup
         Rigidbody SumoRB = sumo.GetComponent<Rigidbody>();
         SumoRB.mass += weightGain;
         transform.position = new Vector3(0, Random.Range(-300, -500), 0);
+        pickUpSound.Play();
         StartCoroutine(ResetWeightValue(SumoRB));
     }
 

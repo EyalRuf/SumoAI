@@ -6,6 +6,7 @@ public class Sumo : MonoBehaviour
     private Rigidbody rb;
     private Collider coll;
     private MeshRenderer mr;
+    public SumoAudio aud;
 
     public bool actionLocked;
 
@@ -34,6 +35,7 @@ public class Sumo : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         coll = GetComponent<CapsuleCollider>();
         mr = GetComponent<MeshRenderer>();
+        aud = GetComponent<SumoAudio>();
     }
 
     public void MoveTowards(Vector3 destination)
@@ -52,6 +54,8 @@ public class Sumo : MonoBehaviour
         // Doing the dodge
         coll.enabled = false;
         mr.material = dodgeMat;
+        aud.soundEmitter.clip = aud.dodge;
+        aud.soundEmitter.Play();
 
         // State changes
         usedDodge = true;
@@ -62,6 +66,8 @@ public class Sumo : MonoBehaviour
     {
         // Performing the push
         rb.AddForce(transform.forward * pushForce, ForceMode.Impulse);
+        aud.soundEmitter.clip = aud.push;
+        aud.soundEmitter.Play();
 
         // State changes
         isPushing = true;
