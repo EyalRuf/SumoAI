@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class EyalAI : SumoBaseAI
 {
     [Header("References")]
-    [SerializeField] List<Sumo> otherSumos;
+    List<Sumo> otherSumos;
     [SerializeField] Transform objectiveCircle;
 
     // Objectives
@@ -34,6 +34,8 @@ public class EyalAI : SumoBaseAI
     protected override void Start()
     {
         base.Start();
+        otherSumos = new List<Sumo>(FindObjectsOfType<Sumo>());
+        otherSumos.Remove(this);
         objectiveCenter = new Vector2(objectiveCircle.position.x, objectiveCircle.position.z);
         objectiveRadius = 10; // Get this dynamicly
         destination = objectiveCenter;
