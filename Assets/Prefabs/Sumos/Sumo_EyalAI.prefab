@@ -92,7 +92,6 @@ GameObject:
   - component: {fileID: 3486317203065853827}
   - component: {fileID: 3486317203065853824}
   - component: {fileID: 3486317203065853825}
-  - component: {fileID: 3486317203065853828}
   - component: {fileID: 6905653968705660898}
   m_Layer: 0
   m_Name: Sumo_EyalAI
@@ -193,32 +192,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 84
   m_CollisionDetection: 0
---- !u!114 &3486317203065853828
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3486317203065853886}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c00dcac0ef782c542a03180eaaa0b33e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actionLocked: 0
-  movementSpeed: 3
-  rotationSpeed: 2.5
-  usedPush: 0
-  pushCD: 3
-  pushDuration: 1
-  pushForce: 15
-  usedDodge: 0
-  dodgeCD: 3
-  dodgeDuration: 0.5
-  currObjective: 2
-  destination: {x: -7.51, y: -7.53}
-  rotateToY: 0
-  otherSumo: {fileID: 0}
 --- !u!114 &6905653968705660898
 MonoBehaviour:
   m_ObjectHideFlags: 0
