@@ -1,3 +1,16 @@
+<<<<<<< HEAD:Assets/Scripts/SumoAI/PowerUpPointBundle.cs.meta
+fileFormatVersion: 2
+guid: 453d99209f8dff640b4a813dd5cf372f
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+=======
 fileFormatVersion: 2
 guid: 182511dfaca38f746a6622408bfe97bf
 MonoImporter:
@@ -9,3 +22,4 @@ MonoImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+>>>>>>> main:Assets/Scripts/Powerups/PowerUpPointBundle.cs.meta
