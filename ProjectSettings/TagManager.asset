@@ -9,6 +9,7 @@ TagManager:
   - GameHandler
   - PointBundle
   - Light
+  - Obstacle
   layers:
   - Default
   - TransparentFX

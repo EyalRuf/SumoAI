@@ -12775,7 +12775,7 @@ PrefabInstance:
         type: 3}
       propertyPath: otherSumos.Array.data[2]
       value: 
-      objectReference: {fileID: 1819394174}
+      objectReference: {fileID: 0}
     - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
       propertyPath: otherSumos.Array.data[3]
@@ -13206,7 +13206,7 @@ PrefabInstance:
         type: 3}
       propertyPath: otherSumo
       value: 
-      objectReference: {fileID: 1819394174}
+      objectReference: {fileID: 0}
     - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
       propertyPath: currObjective
@@ -13266,7 +13266,7 @@ PrefabInstance:
         type: 3}
       propertyPath: otherSumos.Array.data[1]
       value: 
-      objectReference: {fileID: 1819394174}
+      objectReference: {fileID: 0}
     - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
       propertyPath: otherSumos.Array.data[2]
@@ -14941,7 +14941,7 @@ PrefabInstance:
         type: 3}
       propertyPath: otherSumos.Array.data[2]
       value: 
-      objectReference: {fileID: 1819394174}
+      objectReference: {fileID: 0}
     - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
       propertyPath: otherSumos.Array.data[3]
@@ -16748,7 +16748,7 @@ PrefabInstance:
         type: 3}
       propertyPath: otherSumos.Array.data[2]
       value: 
-      objectReference: {fileID: 1819394174}
+      objectReference: {fileID: 0}
     - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
       propertyPath: otherSumos.Array.data[3]
@@ -21127,7 +21127,7 @@ MonoBehaviour:
   rotateToY: 0
   otherSumos:
   - {fileID: 980446325}
-  - {fileID: 1819394174}
+  - {fileID: 0}
   - {fileID: 1185838339}
   - {fileID: 959378726}
   - {fileID: 1053354683}
@@ -24256,20 +24256,9 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3d6b39a23b220334890f2d003dd11b0b, type: 3}
---- !u!114 &1819394174 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
-    type: 3}
-  m_PrefabInstance: {fileID: 1819394173}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1819394175}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c00dcac0ef782c542a03180eaaa0b33e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1819394175 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3486317203065853886, guid: 3d6b39a23b220334890f2d003dd11b0b,
@@ -24295,6 +24284,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointCount: {fileID: 1449947994}
+--- !u!114 &1819394178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1819394175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbdbde9d1bf031145995ee03354aa797, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionLocked: 0
+  movementSpeed: 0
+  rotationSpeed: 0
+  isPushing: 0
+  pushCD: 0
+  pushDuration: 0
+  pushForce: 0
+  usedDodge: 0
+  dodgeCD: 0
+  dodgeDuration: 0
+  originalMat: {fileID: 0}
+  dodgeMat: {fileID: 0}
+  currObjective: 0
+  destination: {x: 0, y: 0}
+  rotateToY: 0
+  oSumo: []
+  targetObjective: {fileID: 0}
+  ring: {fileID: 0}
 --- !u!1 &1823591976
 GameObject:
   m_ObjectHideFlags: 0
