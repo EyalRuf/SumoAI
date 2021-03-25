@@ -1,27 +1,82 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class KrisAI : SumoBaseAI
 {
-    public GameObject FindClosestSumo()
+    //Stored Variables
+    List<Sumo> sumos;
+    public Transform objectiveCircle;
+
+    //Change the distance at which it dodges away from opponents
+
+    protected override void Start()
     {
-        GameObject[] gos;
-        gos = GameObject.FindGameObjectsWithTag("Player");
+        base.Start();
+        sumos = new List<Sumo>(FindObjectsOfType<Sumo>());
+        sumos.Remove(this);
+    }
 
+    // Update is called once per frame
+    void Update()
+    {
+        Sumo closestSumo = FindClosestSumo();
+        Sumo groupedSumo = FindGroupedSumo();
+        Powerup closestPUp = FindClosestPowerUp();        
+        if ((closestSumo.transform.position - transform.position).sqrMagnitude < 7)
+        {
+            if (closestSumo == groupedSumo && !isPushing)
+            {
+                currObjective = AiObjective.push;
+                // get grouped sumo pos & angle towards
+                Vector2 dest = new Vector2(closestSumo.transform.position.x, closestSumo.transform.position.z);
+                Quaternion rotationAway = Quaternion.Inverse(closestSumo.transform.rotation);
+                float angleAway = rotationAway.eulerAngles.y;
 
-        GameObject closest = null;
+                this.destination = dest;
+                this.rotateToY = angleAway;
+            }
+            else if (!isDodging)
+            {
+                currObjective = AiObjective.dodge;
+            }
+            else
+            {
+                currObjective = AiObjective.idle;
+            }
+        }
+        else if (closestPUp != null && closestPUp.name == "PowerUpPointBundle")
+        {
+            currObjective = AiObjective.dodge;
+            Vector2 dest = new Vector2(closestPUp.transform.position.x, closestPUp.transform.position.z);
+            Quaternion rotationTowards = Quaternion.LookRotation(closestPUp.transform.position);
+            float angleTowards = rotationTowards.eulerAngles.y;
+
+            this.destination = dest;
+            this.rotateToY = angleTowards;
+        }
+        else
+        {
+            currObjective = AiObjective.idle;
+        }
+    }
+
+    private Sumo FindClosestSumo()
+    {
+
+        Sumo closest = null;
         float distance = Mathf.Infinity;
         Vector3 position = transform.position;
 
-        foreach (GameObject go in gos)
+        foreach (Sumo sumo in sumos)
         {
-            if (go.Equals(this.gameObject))
+            if (sumo.Equals(this.gameObject))
                 continue;
-            Vector3 diff = go.transform.position - position;
+            Vector3 diff = sumo.transform.position - position;
             float curDistance = diff.sqrMagnitude;
             if (curDistance < distance)
             {
-                closest = go;
+                closest = sumo;
                 distance = curDistance;
             }
         }
@@ -29,22 +84,22 @@ public class KrisAI : SumoBaseAI
     }
 
     //Find a sumo that's the closest to all sumos - center of the group
-    public GameObject FindGroupedSumo()
+    private Sumo FindGroupedSumo()
     {
-        GameObject[] gos1;
-        gos1 = GameObject.FindGameObjectsWithTag("Player");
+        Sumo[] gos1;
+        gos1 = FindObjectsOfType<SumoBaseAI>();
 
-        GameObject grouped = null;
+        Sumo grouped = null;
         float groupDistance = Mathf.Infinity;
 
-        foreach (GameObject go1 in gos1)
+        foreach (Sumo go1 in gos1)
         {
             if (go1.Equals(this.gameObject))
                 continue;
-            GameObject[] gos2;
-            gos2 = GameObject.FindGameObjectsWithTag("Player");
+            Sumo[] gos2;
+            gos2 = FindObjectsOfType<SumoBaseAI>();
             float sumDistance = 0;
-            foreach(GameObject go2 in gos2)
+            foreach (Sumo go2 in gos2)
             {
                 Vector3 diff = go2.transform.position - go1.transform.position;
                 float curDistance = diff.sqrMagnitude;
@@ -59,28 +114,34 @@ public class KrisAI : SumoBaseAI
         return grouped;
     }
 
-    // Update is called once per frame
-    void Update()
+    private Powerup FindClosestPowerUp()
     {
-        if(FindClosestSumo() == FindGroupedSumo() && !isPushing)
-        {
-            currObjective = AiObjective.push;
-            Debug.Log("dodged group");
-            // get grouped sumo pos & angle towards
-            Vector2 dest = new Vector2(FindClosestSumo().transform.position.x, FindClosestSumo().transform.position.z);
-            Quaternion rotationAway = Quaternion.Inverse(FindClosestSumo().transform.rotation);
-            float angleAway = rotationAway.eulerAngles.y;
+        Powerup[] powerups;
+        powerups = FindObjectsOfType<Powerup>();
 
-            this.destination = dest;
-            this.rotateToY = angleAway;
-        }
-        else if (!isDodging)
+        Powerup closest = null;
+        float distance = Mathf.Infinity;
+        Vector3 position = transform.position;
+
+        foreach (Powerup pu in powerups)
         {
-            currObjective = AiObjective.dodge;
+            if (pu.Equals(this.gameObject))
+                continue;
+            Vector3 diff = pu.transform.position - position;
+            float curDistance = diff.sqrMagnitude;
+            if (curDistance < distance)
+            {
+                closest = pu;
+                distance = curDistance;
+            }
         }
-        else
-        {
-            currObjective = AiObjective.idle;
-        }
+        return closest;
     }
+
+    private GameObject DecisionMaking(Sumo closestSumo, Sumo groupedSumo, Powerup closestPowerup)
+    {
+
+        return null;
+    }
+
 }
