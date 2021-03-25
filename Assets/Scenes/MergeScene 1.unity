@@ -26819,7 +26819,7 @@ MonoBehaviour:
   - {fileID: 3486317202420900762}
   - {fileID: 3486317202876731565}
   ring: {fileID: 4485564536029659}
-  power: 850
+  power: 650
 --- !u!82 &3486317201619108713
 AudioSource:
   m_ObjectHideFlags: 0
