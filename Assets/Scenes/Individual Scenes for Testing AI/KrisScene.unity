@@ -23128,7 +23128,6 @@ MonoBehaviour:
   currObjective: 2
   destination: {x: 0, y: 0}
   rotateToY: 0
-  objectiveCircle: {fileID: 0}
 --- !u!82 &3486317202420900763
 AudioSource:
   m_ObjectHideFlags: 0
