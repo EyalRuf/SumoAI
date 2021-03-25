@@ -7,6 +7,7 @@ public class CameraController : MonoBehaviour
     [Header("References")]
     public GameHandler GH;
     public List<Camera> cameras;
+    public List<Transform> nametags;
 
     [Header("CameraController")]
     public bool isAutimatic;
@@ -39,7 +40,11 @@ public class CameraController : MonoBehaviour
                     
                 ActivateCamera(mod(currCameraIndex - 1, cameras.Count));
             }
-            
+        }
+
+        foreach (Transform nametag in nametags)
+        {
+            nametag.LookAt(cameras[currCameraIndex].transform);
         }
     }
 
