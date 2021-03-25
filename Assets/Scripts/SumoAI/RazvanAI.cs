@@ -87,12 +87,12 @@ public class RazvanAI : SumoBaseAI
             }
 
             // aici ma duc dupa powerups daca am unu aproape
-            Transform closestPowerUp = getClosestPointsDistance();// saves t
+            /*Transform closestPowerUp = getClosestPointsDistance();// saves t
             float myPnts = GetComponent<Points>().points;
-            Debug.Log(getClosestPointsDistance());
+            Debug.Log(getClosestPointsDistance());*/
 
-            float distanceUntillRing = Vector3.Distance(this.transform.position, ring.transform.position);
-            float distanceUntillPowerUp = Vector3.Distance(this.transform.position, closestPowerUp.transform.position);
+            /*float distanceUntillRing = Vector3.Distance(this.transform.position, ring.transform.position);
+            float distanceUntillPowerUp = Vector3.Distance(this.transform.position, closestPowerUp.transform.position);*/
 
             /*if (myPnts - 2 > displaySumoWithMostPoints().GetComponent<Points>().points)
             {
