@@ -6,6 +6,7 @@ public class ObjectSpawner : MonoBehaviour
 {
     [Header("References")]
     public GameHandler gameHandler;
+    public LayerMask spawnLayerMask;
 
     [Header("Settings obstacles")]
     [SerializeField] List<GameObject> obstacles;
@@ -57,27 +58,28 @@ public class ObjectSpawner : MonoBehaviour
 
         if (!gameHandler.gameStopped)
         {
-            if (minSpawnIncrement <= 0 || maxSpawnIncrement <= 0 || minSpawnIncrement > maxSpawnIncrement) //Safety check
+            if (minSpawnIncrement < 0 || maxSpawnIncrement < 0 || minSpawnIncrement >= maxSpawnIncrement) //Safety check
             {
                 Debug.LogError("No powerups will spawn, because the min and max time values are wrong.");
                 yield break;
             }
 
             Vector3 spawnPosition = new Vector3(Random.Range(minX, maxX), yPosition, Random.Range(minZ, maxZ));
-            Instantiate(powerUps[Random.Range(0, powerUps.Count)], spawnPosition, Quaternion.identity);
 
             //Tries to spawn a powerup, if something is already blocking the way, then it retries until it can freely spawn
-            //while (!canSpawn)
-            //{
-            //    Vector3 spawnPosition = new Vector3(Random.Range(minX, maxX), yPosition, Random.Range(minZ, maxZ));
-            //    preventSpawningArray = Physics.OverlapSphere(spawnPosition, collisionCheckRadius, 9);
+            while (!canSpawn)
+            {
+                preventSpawningArray = Physics.OverlapSphere(spawnPosition, collisionCheckRadius, spawnLayerMask);
 
-            //    if (preventSpawningArray.Length <= 0)
-            //    {
-            //        Instantiate(powerUps[Random.Range(0, powerUps.Count)], spawnPosition, Quaternion.identity);
-            //        canSpawn = true;
-            //    }
-            //}
+                if (preventSpawningArray.Length == 0)
+                {
+                    Instantiate(powerUps[Random.Range(0, powerUps.Count)], spawnPosition, Quaternion.identity);
+                    canSpawn = true;
+                } else
+                {
+                    spawnPosition = new Vector3(Random.Range(minX, maxX), yPosition, Random.Range(minZ, maxZ));
+                }
+            }
 
             yield return StartCoroutine(SpawnPowerUp());
         }

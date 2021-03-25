@@ -5,12 +5,12 @@ using System.Collections.Generic;
 public class EyalAI : SumoBaseAI
 {
     [Header("References")]
-    List<Sumo> otherSumos;
     [SerializeField] Transform objectiveCircle;
 
     // Objectives
+    List<Sumo> otherSumos;
     Vector2 objectiveCenter;
-    float objectiveRadius;
+    float objectiveRadius = 10;
     [SerializeField] float minSumoRangeForGeneralEngagement;
 
     // Attack
@@ -21,6 +21,8 @@ public class EyalAI : SumoBaseAI
     [SerializeField] float opponentSumoTargetingOffset;
 
     // ### Ideas ###
+
+    // Don't attack people who have less points than u
 
     // Ring center + dodging/pushing
     // Sumos that are close and pushing -> dodge / push to their direction
@@ -37,7 +39,7 @@ public class EyalAI : SumoBaseAI
         otherSumos = new List<Sumo>(FindObjectsOfType<Sumo>());
         otherSumos.Remove(this);
         objectiveCenter = new Vector2(objectiveCircle.position.x, objectiveCircle.position.z);
-        objectiveRadius = 10; // Get this dynamicly
+        objectiveRadius = objectiveCircle.GetComponent<SphereCollider>().radius * objectiveCircle.transform.localScale.y;
         destination = objectiveCenter;
     }
 

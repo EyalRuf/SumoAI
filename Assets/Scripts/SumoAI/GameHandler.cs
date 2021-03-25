@@ -18,7 +18,7 @@ public class GameHandler : MonoBehaviour
     [SerializeField] GameObject winBox;
     [SerializeField] Text winText;
 
-    [SerializeField] SphereCollider ringCollider;
+    public SphereCollider ringCollider;
     [SerializeField] LayerMask playerLayerMask;
 
     [SerializeField] AudioSource battleMusic;
