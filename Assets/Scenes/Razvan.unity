@@ -2256,7 +2256,7 @@ PrefabInstance:
         type: 3}
       propertyPath: otherSumo
       value: 
-      objectReference: {fileID: 736096656}
+      objectReference: {fileID: 0}
     - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
       propertyPath: currObjective
@@ -2321,17 +2321,17 @@ PrefabInstance:
         type: 3}
       propertyPath: otherSumos.Array.data[2]
       value: 
-      objectReference: {fileID: 736096656}
+      objectReference: {fileID: 0}
     - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
       propertyPath: otherSumos.Array.data[3]
       value: 
-      objectReference: {fileID: 623058294}
+      objectReference: {fileID: 0}
     - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
       propertyPath: otherSumos.Array.data[4]
       value: 
-      objectReference: {fileID: 1536587327}
+      objectReference: {fileID: 0}
     - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
       propertyPath: pushForce
@@ -4266,7 +4266,7 @@ PrefabInstance:
         type: 3}
       propertyPath: otherSumo
       value: 
-      objectReference: {fileID: 1536587327}
+      objectReference: {fileID: 0}
     - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
       propertyPath: currObjective
@@ -4336,12 +4336,12 @@ PrefabInstance:
         type: 3}
       propertyPath: otherSumos.Array.data[3]
       value: 
-      objectReference: {fileID: 736096656}
+      objectReference: {fileID: 0}
     - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
       propertyPath: otherSumos.Array.data[4]
       value: 
-      objectReference: {fileID: 1536587327}
+      objectReference: {fileID: 0}
     - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
       propertyPath: pushForce
@@ -7877,18 +7877,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 314045482}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &623058294 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
-    type: 3}
-  m_PrefabInstance: {fileID: 314045482}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 623058293}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c00dcac0ef782c542a03180eaaa0b33e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &623058295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9399,18 +9387,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2004248213}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &736096656 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
-    type: 3}
-  m_PrefabInstance: {fileID: 2004248213}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 736096655}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c00dcac0ef782c542a03180eaaa0b33e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &736096657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12169,7 +12145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d07d786c23accb4d9ac0a06f9615aca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotateSpeed: 0.5
+  rotateSpeed: 0.025
   cycleSpeed: 0
   xRotation: 0
   intensity: 1
@@ -16061,6 +16037,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c00dcac0ef782c542a03180eaaa0b33e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aud: {fileID: 0}
   actionLocked: 0
   movementSpeed: 3
   rotationSpeed: 2.5
@@ -16068,7 +16045,7 @@ MonoBehaviour:
   pushCD: 3
   pushDuration: 1
   pushForce: 10
-  usedDodge: 0
+  isDodging: 0
   dodgeCD: 3
   dodgeDuration: 0.5
   originalMat: {fileID: 2100000, guid: 30f1736f10c1f0249bb4da99ef8ba196, type: 2}
@@ -16076,9 +16053,6 @@ MonoBehaviour:
   currObjective: 2
   destination: {x: 0, y: 0}
   rotateToY: 0
-  otherSumos:
-  - {fileID: 1920139557}
-  - {fileID: 736096656}
   objectiveCircle: {fileID: 104518080}
   minSumoRangeForGeneralEngagement: 6
   distanceForAttack: 4
@@ -19789,18 +19763,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointCount: {fileID: 385324243}
---- !u!114 &1536587327 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
-    type: 3}
-  m_PrefabInstance: {fileID: 2067329292}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1536587324}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c00dcac0ef782c542a03180eaaa0b33e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1548705367
 GameObject:
   m_ObjectHideFlags: 0
@@ -25423,6 +25385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbdbde9d1bf031145995ee03354aa797, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aud: {fileID: 0}
   actionLocked: 0
   movementSpeed: 3
   rotationSpeed: 2.5
@@ -25430,7 +25393,7 @@ MonoBehaviour:
   pushCD: 3
   pushDuration: 1
   pushForce: 25
-  usedDodge: 0
+  isDodging: 0
   dodgeCD: 3
   dodgeDuration: 0.5
   originalMat: {fileID: 2100000, guid: 30f1736f10c1f0249bb4da99ef8ba196, type: 2}
@@ -25440,7 +25403,6 @@ MonoBehaviour:
   rotateToY: 0
   oSumo:
   - {fileID: 1254604432}
-  - {fileID: 736096656}
   ring: {fileID: 104518080}
   power: 500
 --- !u!114 &1920139558
@@ -26549,7 +26511,7 @@ PrefabInstance:
         type: 3}
       propertyPath: otherSumo
       value: 
-      objectReference: {fileID: 623058294}
+      objectReference: {fileID: 0}
     - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
       propertyPath: currObjective
@@ -26619,12 +26581,12 @@ PrefabInstance:
         type: 3}
       propertyPath: otherSumos.Array.data[3]
       value: 
-      objectReference: {fileID: 623058294}
+      objectReference: {fileID: 0}
     - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
       propertyPath: otherSumos.Array.data[4]
       value: 
-      objectReference: {fileID: 1536587327}
+      objectReference: {fileID: 0}
     - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
       propertyPath: pushForce
@@ -27937,12 +27899,12 @@ PrefabInstance:
         type: 3}
       propertyPath: otherSumos.Array.data[3]
       value: 
-      objectReference: {fileID: 736096656}
+      objectReference: {fileID: 0}
     - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
       propertyPath: otherSumos.Array.data[4]
       value: 
-      objectReference: {fileID: 623058294}
+      objectReference: {fileID: 0}
     - target: {fileID: 3486317203065853828, guid: 3d6b39a23b220334890f2d003dd11b0b,
         type: 3}
       propertyPath: pushForce

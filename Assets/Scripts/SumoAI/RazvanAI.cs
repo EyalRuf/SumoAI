@@ -79,7 +79,7 @@ public class RazvanAI : SumoBaseAI
 
             dist = Vector3.Distance(this.transform.position, trans.transform.position);
 
-            if (this.getClosestSumo().isPushing && this.usedDodge == false && dist < playerRadius)
+            if (this.getClosestSumo().isPushing && this.isDodging == false && dist < playerRadius)
             {
                 Dodge();   
             }
