@@ -27,6 +27,8 @@ public class KrisAI : SumoBaseAI
         Sumo groupedSumo = FindGroupedSumo();
         Powerup closestPUp = FindClosestPowerUp();
 
+        Debug.Log(closestPUp);
+
         DecisionMaking(closestSumo,groupedSumo,closestPUp,ring);
         
     }
@@ -110,7 +112,7 @@ public class KrisAI : SumoBaseAI
 
     private void DecisionMaking(Sumo closestSumo, Sumo groupedSumo, Powerup closestPowerUp, Transform objectiveCircle)
     {
-        if ((closestSumo.transform.position - transform.position).sqrMagnitude < 7)
+        if ((closestSumo.transform.position - transform.position).sqrMagnitude < 3)
         {
             if (closestSumo == groupedSumo && !isPushing)
             {
@@ -132,7 +134,7 @@ public class KrisAI : SumoBaseAI
                 currObjective = AiObjective.idle;
             }
         }
-        else if (closestPowerUp != null && closestPowerUp.name == "PowerUpPointBundle")
+        else if (closestPowerUp != null && closestPowerUp.GetComponent<PowerUpPointBundle>() != null)
         {
             currObjective = AiObjective.dodge;
             Vector2 dest = new Vector2(closestPowerUp.transform.position.x, closestPowerUp.transform.position.z);
@@ -144,6 +146,12 @@ public class KrisAI : SumoBaseAI
         }
         else
         {
+            Vector2 dest = new Vector2(ring.transform.position.x, ring.transform.position.z);
+            Quaternion rotationTowards = Quaternion.LookRotation(ring.transform.position);
+            float angleTowards = rotationTowards.eulerAngles.y;
+
+            this.destination = dest;
+            this.rotateToY = angleTowards;
             currObjective = AiObjective.idle;
         }
     }
