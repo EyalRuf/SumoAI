@@ -98,10 +98,10 @@ public class RazvanAI : SumoBaseAI
             {
                 if(distanceUntillRing < distanceUntillPowerUp)
                 {
-
+                    destination = distanceUntillPowerUp.position;
                 } else
                 {
-
+                    destination = ringCenter;
                 }
             }*/
             
