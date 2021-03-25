@@ -16,9 +16,18 @@ public class GameHandler : MonoBehaviour
     [Space(20)]
 
     [SerializeField] GameObject winBox;
+    [SerializeField] Text winText;
 
-    [SerializeField] Transform ringTransform;
+    [SerializeField] SphereCollider ringCollider;
     [SerializeField] LayerMask playerLayerMask;
+
+    [SerializeField] AudioSource battleMusic;
+    [SerializeField] AudioSource tenseMusic;
+    [SerializeField] AudioSource applause;
+    [SerializeField] AudioSource winTune;
+    [SerializeField] AudioSource gong;
+
+    bool tenseMusicPlaying;
 
     private void Start()
     {
@@ -28,11 +37,27 @@ public class GameHandler : MonoBehaviour
             pointModifier = 3;
         }
 
+        battleMusic.Play();
+        gong.Play();
+
         StartCoroutine(PointCycle());
+    }
+
+    void Update()
+    {
+        if (gameStopped)
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                Application.LoadLevel(0);
+            }
+        }
     }
 
     IEnumerator PointCycle()
     {
+        pointModifier = 1;
+
         yield return new WaitForSeconds(cycleTimeLength);
 
         if(cycleTimeLength <= 0)
@@ -43,17 +68,15 @@ public class GameHandler : MonoBehaviour
 
         if (!gameStopped)
         {
-            Collider[] colliders;
-            List<GameObject> playersInRing = new List<GameObject>();
+            List<Sumo> playersInRing = new List<Sumo>();
             List<GameObject> winners = new List<GameObject>();
             int resetModifier = pointModifier;
             pointModifier += 1;
 
-            colliders = Physics.OverlapSphere(ringTransform.position, 7f, playerLayerMask);
-
-            foreach (var playerCol in colliders)
+            Collider[] playerColliders = Physics.OverlapSphere(ringCollider.bounds.center, ringCollider.radius * ringCollider.transform.localScale.y, playerLayerMask);
+            foreach (var playerC in playerColliders)
             {
-                playersInRing.Add(playerCol.gameObject);
+                playersInRing.Add(playerC.GetComponent<Sumo>());
             }
 
             foreach (var player in playersInRing)
@@ -67,9 +90,16 @@ public class GameHandler : MonoBehaviour
             {
                 player.GetComponent<Points>().UpdatePoints(pointModifier);
 
+                if (player.GetComponent<Points>().points >= pointWinRequirement * 0.9f && !tenseMusicPlaying)
+                {
+                    battleMusic.Stop();
+                    tenseMusic.Play();
+                    tenseMusicPlaying = true;
+                }
+
                 if (player.GetComponent<Points>().points >= pointWinRequirement)
                 {
-                    winners.Add(player);
+                    winners.Add(player.gameObject);
                 }
             }
 
@@ -78,7 +108,7 @@ public class GameHandler : MonoBehaviour
             pointModifier = resetModifier;
         }
 
-        StartCoroutine("PointCycle");
+        StartCoroutine(PointCycle());
     }
 
     public int ReturnRequirement()
@@ -92,13 +122,19 @@ public class GameHandler : MonoBehaviour
         {
             winBox.SetActive(true);
             gameStopped = true;
-            winBox.transform.GetChild(0).GetComponent<Text>().text = "Player " + winners[0].name + " has Won";
+            winText.text = "Player " + winners[0].name + " has Won";
+            tenseMusic.Stop();
+            applause.Play();
+            winTune.Play();
         }
         else if(winners.Count > 1)
         {
             winBox.SetActive(true);
             gameStopped = true;
-            winBox.transform.GetChild(0).GetComponent<Text>().text = "DRAW!";
+            winText.text = "DRAW!";
+            tenseMusic.Stop();
+            applause.Play();
+            winTune.Play();
         }
     }
 }

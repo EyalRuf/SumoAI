@@ -6,6 +6,7 @@ public class Sumo : MonoBehaviour
     private Rigidbody rb;
     private Collider coll;
     private MeshRenderer mr;
+    public SumoAudio aud;
 
     public bool actionLocked;
 
@@ -22,7 +23,7 @@ public class Sumo : MonoBehaviour
     public float pushForce;
 
     [Header("Dodge")]
-    public bool usedDodge;
+    public bool isDodging;
     public float dodgeCD;
     public float dodgeDuration;
     public Material originalMat;
@@ -34,6 +35,7 @@ public class Sumo : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         coll = GetComponent<CapsuleCollider>();
         mr = GetComponent<MeshRenderer>();
+        aud = GetComponent<SumoAudio>();
     }
 
     public void MoveTowards(Vector3 destination)
@@ -52,9 +54,11 @@ public class Sumo : MonoBehaviour
         // Doing the dodge
         coll.enabled = false;
         mr.material = dodgeMat;
+        aud.soundEmitter.clip = aud.dodge;
+        aud.soundEmitter.Play();
 
         // State changes
-        usedDodge = true;
+        isDodging = true;
         StartCoroutine(ActionLockDodge(dodgeDuration));
         StartCoroutine(DodgeCooldown());
     }
@@ -62,6 +66,8 @@ public class Sumo : MonoBehaviour
     {
         // Performing the push
         rb.AddForce(transform.forward * pushForce, ForceMode.Impulse);
+        aud.soundEmitter.clip = aud.push;
+        aud.soundEmitter.Play();
 
         // State changes
         isPushing = true;
@@ -69,7 +75,7 @@ public class Sumo : MonoBehaviour
         StartCoroutine(PushCooldown());
     }
 
-    IEnumerator ActionLockPush(float duration)
+    public IEnumerator ActionLockPush(float duration)
     {
         actionLocked = true;
         yield return new WaitForSeconds(duration);
@@ -94,7 +100,7 @@ public class Sumo : MonoBehaviour
     IEnumerator DodgeCooldown()
     {
         yield return new WaitForSeconds(dodgeCD);
-        usedDodge = false;
+        isDodging = false;
     }
 
     IEnumerator PushCooldown()

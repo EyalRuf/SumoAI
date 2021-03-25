@@ -15,6 +15,28 @@ public class SumoBaseAI : Sumo
         PerformObjective();
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.tag == "Player")
+        {
+            Sumo other = collision.collider.GetComponent<Sumo>();
+
+            if (isPushing)
+            {
+                other.ActionLockPush(pushDuration / 2);
+            } else if (other.isPushing)
+            {
+                ActionLockPush(other.pushDuration / 2);
+            }
+        }
+
+        if(currObjective == AiObjective.push)
+        {
+            aud.soundEmitter.clip = aud.impact;
+            aud.soundEmitter.Play();
+        } 
+    }
+
     void PerformObjective ()
     {
         if (!actionLocked)
@@ -26,7 +48,7 @@ public class SumoBaseAI : Sumo
             {
                 Push();
             }
-            else if (currObjective == AiObjective.dodge && !usedDodge)
+            else if (currObjective == AiObjective.dodge && !isDodging)
             {
                 Dodge();
             }
