@@ -6,15 +6,18 @@ public class KrisAI : SumoBaseAI
 {
     //Stored Variables
     List<Sumo> sumos;
-    public Transform objectiveCircle;
+    Transform ring;
 
     //Change the distance at which it dodges away from opponents
 
     protected override void Start()
     {
         base.Start();
+
         sumos = new List<Sumo>(FindObjectsOfType<Sumo>());
         sumos.Remove(this);
+
+        ring = GameObject.FindGameObjectWithTag("Ring").transform;
     }
 
     // Update is called once per frame
@@ -22,43 +25,10 @@ public class KrisAI : SumoBaseAI
     {
         Sumo closestSumo = FindClosestSumo();
         Sumo groupedSumo = FindGroupedSumo();
-        Powerup closestPUp = FindClosestPowerUp();        
-        if ((closestSumo.transform.position - transform.position).sqrMagnitude < 7)
-        {
-            if (closestSumo == groupedSumo && !isPushing)
-            {
-                currObjective = AiObjective.push;
-                // get grouped sumo pos & angle towards
-                Vector2 dest = new Vector2(closestSumo.transform.position.x, closestSumo.transform.position.z);
-                Quaternion rotationAway = Quaternion.Inverse(closestSumo.transform.rotation);
-                float angleAway = rotationAway.eulerAngles.y;
+        Powerup closestPUp = FindClosestPowerUp();
 
-                this.destination = dest;
-                this.rotateToY = angleAway;
-            }
-            else if (!isDodging)
-            {
-                currObjective = AiObjective.dodge;
-            }
-            else
-            {
-                currObjective = AiObjective.idle;
-            }
-        }
-        else if (closestPUp != null && closestPUp.name == "PowerUpPointBundle")
-        {
-            currObjective = AiObjective.dodge;
-            Vector2 dest = new Vector2(closestPUp.transform.position.x, closestPUp.transform.position.z);
-            Quaternion rotationTowards = Quaternion.LookRotation(closestPUp.transform.position);
-            float angleTowards = rotationTowards.eulerAngles.y;
-
-            this.destination = dest;
-            this.rotateToY = angleTowards;
-        }
-        else
-        {
-            currObjective = AiObjective.idle;
-        }
+        DecisionMaking(closestSumo,groupedSumo,closestPUp,ring);
+        
     }
 
     private Sumo FindClosestSumo()
@@ -138,10 +108,44 @@ public class KrisAI : SumoBaseAI
         return closest;
     }
 
-    private GameObject DecisionMaking(Sumo closestSumo, Sumo groupedSumo, Powerup closestPowerup)
+    private void DecisionMaking(Sumo closestSumo, Sumo groupedSumo, Powerup closestPowerUp, Transform objectiveCircle)
     {
+        if ((closestSumo.transform.position - transform.position).sqrMagnitude < 7)
+        {
+            if (closestSumo == groupedSumo && !isPushing)
+            {
+                currObjective = AiObjective.push;
+                // get grouped sumo pos & angle towards
+                Vector2 dest = new Vector2(closestSumo.transform.position.x, closestSumo.transform.position.z);
+                Quaternion rotationAway = Quaternion.Inverse(closestSumo.transform.rotation);
+                float angleAway = rotationAway.eulerAngles.y;
 
-        return null;
+                this.destination = dest;
+                this.rotateToY = angleAway;
+            }
+            else if (!isDodging)
+            {
+                currObjective = AiObjective.dodge;
+            }
+            else
+            {
+                currObjective = AiObjective.idle;
+            }
+        }
+        else if (closestPowerUp != null && closestPowerUp.name == "PowerUpPointBundle")
+        {
+            currObjective = AiObjective.dodge;
+            Vector2 dest = new Vector2(closestPowerUp.transform.position.x, closestPowerUp.transform.position.z);
+            Quaternion rotationTowards = Quaternion.LookRotation(closestPowerUp.transform.position);
+            float angleTowards = rotationTowards.eulerAngles.y;
+
+            this.destination = dest;
+            this.rotateToY = angleTowards;
+        }
+        else
+        {
+            currObjective = AiObjective.idle;
+        }
     }
 
 }

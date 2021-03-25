@@ -1,19 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7171343007152138886
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6447345408210300524}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 559d349f985949941a6d6ac76db7642e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weightGain: 1
-  duration: 7.5
 --- !u!82 &354117255822935201
 AudioSource:
   m_ObjectHideFlags: 0
@@ -110,6 +96,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-7171343007152138886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6447345408210300524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 807ff5def02d3744f974d7dfe4d6a913, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weightGain: 0
+  duration: 0
 --- !u!1001 &431768469437285868
 PrefabInstance:
   m_ObjectHideFlags: 0
