@@ -8,6 +8,8 @@ TagManager:
   - Boat
   - GameHandler
   - PointBundle
+  - Light
+  - Obstacle
   - PowerUp
   - Ring
   - Sumo

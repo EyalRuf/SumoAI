@@ -1,3 +1,16 @@
+<<<<<<< HEAD:Assets/Scripts/SumoAI/PowerUpForce.cs.meta
+fileFormatVersion: 2
+guid: fb4fc2348152b434e8f4243758684a97
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+=======
 fileFormatVersion: 2
 guid: cac59bff604b2894c86c58b935797a52
 MonoImporter:
@@ -9,3 +22,4 @@ MonoImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+>>>>>>> main:Assets/Scripts/Powerups/PowerUpForce.cs.meta
