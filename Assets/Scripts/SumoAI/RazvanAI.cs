@@ -5,6 +5,7 @@ using UnityEngine;
 public class RazvanAI : SumoBaseAI
 {
     public List<Sumo> oSumo;
+    List<Powerup> powerUps;
 
     public Transform ring;
     Transform trans = null;
@@ -12,6 +13,7 @@ public class RazvanAI : SumoBaseAI
     Vector2 ringCenter;
 
     float playerRadius = 3f;
+    float pUpRadius = 5f;
     float dist;
     public float power;
 
@@ -24,6 +26,7 @@ public class RazvanAI : SumoBaseAI
         base.Start();
         ringCenter = new Vector2(ring.position.x, ring.position.z);
         destination = ringCenter;
+        powerUps = new List<Powerup>(FindObjectsOfType<Powerup>());
     }
 
     private void Update()
@@ -40,7 +43,6 @@ public class RazvanAI : SumoBaseAI
         {
             isDeffensive = true;
             isAggressive = false;
-            // aici ma duc dupa powerups daca am unu aproape
         } else
         {
             isDeffensive = false;
@@ -81,32 +83,56 @@ public class RazvanAI : SumoBaseAI
 
             if (this.getClosestSumo().isPushing && this.isDodging == false && dist < playerRadius)
             {
-                Dodge();   
+                Dodge();
             }
 
-            /*var pointsPowerUps = FindObjectOfType<PowerUpPointBundle>();
-            float pointsDist = Vector3.Distance(this.transform.position, pointsPowerUps.transform.position);
+            // aici ma duc dupa powerups daca am unu aproape
+            Transform closestPowerUp = getClosestPointsDistance();// saves t
+            float myPnts = GetComponent<Points>().points;
+            Debug.Log(getClosestPointsDistance());
 
-            var forcePowerUp = FindObjectOfType<PowerUpForce>();
-            float forceDist = Vector3.Distance(this.transform.position, forcePowerUp.transform.position);
+            float distanceUntillRing = Vector3.Distance(this.transform.position, ring.transform.position);
+            float distanceUntillPowerUp = Vector3.Distance(this.transform.position, closestPowerUp.transform.position);
 
-            var weightPowerUp = FindObjectOfType<PowerUpWeight>();
-            float weightDist = Vector3.Distance(this.transform.position, weightPowerUp.transform.position);
+            /*if (myPnts - 2 > displaySumoWithMostPoints().GetComponent<Points>().points)
+            {
+                if(distanceUntillRing < distanceUntillPowerUp)
+                {
 
-            if(pointsDist < forceDist && pointsDist < weightDist)
-            {
-                destination = new Vector2(pointsPowerUps.transform.position.x, pointsPowerUps.transform.position.z);
-            } else if(forceDist < pointsDist && forceDist < weightDist)
-            {
-                destination = new Vector2(forcePowerUp.transform.position.x, forcePowerUp.transform.position.z);
-            } else if(weightDist < forceDist && weightDist < pointsDist)
-            {
-                destination = new Vector2(weightPowerUp.transform.position.x, weightPowerUp.transform.position.z);
+                } else
+                {
+
+                }
             }*/
-
+            
         }
 
     }
+
+    private Transform getClosestPointsDistance()
+    {
+
+        float nearestPU = Mathf.Infinity;
+        Vector3 curPos = transform.position;
+        Transform t = null;
+
+        foreach(Powerup pUp in powerUps)
+        {
+            float d = Vector3.Distance(pUp.transform.position, curPos);
+            if(d < nearestPU)
+            {
+                t = pUp.transform;
+                nearestPU = d;
+            }
+        }
+
+        return t;
+    }
+
+    /*Powerup closestPowerUp()
+    {
+
+    }*/
 
     //Returns the sumo with most points
     private Sumo displaySumoWithMostPoints()

@@ -105,10 +105,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8234076264019239895}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 182511dfaca38f746a6622408bfe97bf, type: 3}
+  m_Script: {fileID: 11500000, guid: 453d99209f8dff640b4a813dd5cf372f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointCount: 10
+  pointCount: 0
 --- !u!1001 &304619140152120787
 PrefabInstance:
   m_ObjectHideFlags: 0
