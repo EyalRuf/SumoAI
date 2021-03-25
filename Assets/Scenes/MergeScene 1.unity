@@ -27416,6 +27416,7 @@ MonoBehaviour:
   currObjective: 2
   destination: {x: 0, y: 0}
   rotateToY: 0
+  objectiveCircle: {fileID: 0}
 --- !u!82 &3486317202420900763
 AudioSource:
   m_ObjectHideFlags: 0
@@ -28575,9 +28576,9 @@ MonoBehaviour:
   destination: {x: 0, y: 0}
   rotateToY: 0
   objectiveCircle: {fileID: 4485564536029659}
-  minSumoRangeForGeneralEngagement: 6
-  distanceForAttack: 4
-  distanceForDefence: 5
+  minSumoRangeForGeneralEngagement: 10
+  distanceForAttack: 5
+  distanceForDefence: 3
   opponentSumoTargetingOffset: 20
 --- !u!4 &3486317203172981698
 Transform:

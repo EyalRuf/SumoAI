@@ -49,8 +49,23 @@ public class EyalAI : SumoBaseAI
         // Do I have the most points? -> be defensive
         bool defenceFlag = GetComponent<Points>().points > GetSumoWithMostPoints(otherSumos).GetComponent<Points>().points;
         
-        List<Sumo> SumosWithinRange = GetSumoWithinRange(otherSumos, minSumoRangeForGeneralEngagement);
-        Sumo closestSumo = GetClosestSumo(SumosWithinRange);
+        //// Closest to powerup? GO!
+        //List<Powerup> powerups = new List<Powerup>(FindObjectsOfType<Powerup>());
+        //Powerup closestPowerupToMe = GetClosestGameObject(powerups.ConvertAll(p => p.gameObject), transform.position).GetComponent<Powerup>();
+        //float myDistanceToClosestPowerup = Vector3.Distance(transform.position, closestPowerupToMe.transform.position);
+        //List<Sumo> sumosCloserToPowerupThanMe = GetSumoWithinRange(otherSumos, closestPowerupToMe.transform.position, myDistanceToClosestPowerup);
+
+        //if (sumosCloserToPowerupThanMe.Count == 0)
+        //{
+
+        //} else
+        //{
+
+        //}
+
+
+        List<Sumo> SumosWithinRange = GetSumoWithinRange(otherSumos, transform.position, minSumoRangeForGeneralEngagement);
+        Sumo closestSumo = GetClosestGameObject(SumosWithinRange.ConvertAll(s => s.gameObject), transform.position).GetComponent<Sumo>();
         Sumo closestPushingSumo = GetClosestPushingSumo(SumosWithinRange);
         Sumo targetSumo = closestSumo;
 
@@ -70,23 +85,16 @@ public class EyalAI : SumoBaseAI
             if (!isDodging)
             {
                 currObjective = AiObjective.dodge;
-                defenceFlag = true;
             } 
             else if (!isPushing && Quaternion.Angle(myCurrRotation, rotTowardsTarget) <= opponentSumoTargetingOffset)
             {
                 currObjective = AiObjective.push;
-                defenceFlag = true;
             }
         }
 
-        if (defenceFlag)
+        if (!defenceFlag)
         {
-                //Debug.Log("Defensive");
-        } else
-        {
-                //Debug.Log("Agressive");
-
-            SumosWithinRange = GetSumoWithinRange(otherSumos, distanceForAttack);
+            SumosWithinRange = GetSumoWithinRange(otherSumos, transform.position, distanceForAttack);
             targetSumo = GetSumoWithMostPoints(SumosWithinRange);
             rotTowardsTarget = Quaternion.LookRotation(targetSumo.transform.position - transform.position);
             myCurrRotation = transform.localRotation;
@@ -98,6 +106,8 @@ public class EyalAI : SumoBaseAI
             {
                 currObjective = AiObjective.idle;
             }
+
+            destination = new Vector2(targetSumo.transform.position.x, targetSumo.transform.position.z);
         }
 
         float angleTowardsClosestSumo = rotTowardsTarget.eulerAngles.y;
@@ -118,11 +128,11 @@ public class EyalAI : SumoBaseAI
         return null;
     }
 
-    List<Sumo> GetSumoWithinRange(List<Sumo> sumos, float range)
+    List<Sumo> GetSumoWithinRange(List<Sumo> sumos, Vector3 point, float range)
     {
         sumos.FindAll(sumo =>
         {
-            float distanceTo = Vector3.Distance(transform.position, sumo.transform.position);
+            float distanceTo = Vector3.Distance(point, sumo.transform.position);
             return distanceTo <= range;
         });
 
@@ -131,20 +141,20 @@ public class EyalAI : SumoBaseAI
 
     Sumo GetClosestPushingSumo(List<Sumo> sumos)
     {
-        return GetClosestSumo(sumos.FindAll(s => s.isPushing));
+        return GetClosestGameObject(sumos.FindAll(s => s.isPushing).ConvertAll(s => s.gameObject), transform.position).GetComponent<Sumo>();
     }
 
-    Sumo GetClosestSumo(List<Sumo> sumos)
+    GameObject GetClosestGameObject(List<GameObject> objects, Vector3 pos)
     {
-        sumos.Sort((a, b) =>
+        objects.Sort((a, b) =>
         {
-            float distanceToA = Vector3.Distance(transform.position, a.transform.position);
-            float distanceToB = Vector3.Distance(transform.position, b.transform.position);
+            float distanceToA = Vector3.Distance(pos, a.transform.position);
+            float distanceToB = Vector3.Distance(pos, b.transform.position);
             return distanceToA.CompareTo(distanceToB);
         });
         
-        if (sumos.Count > 0)
-            return sumos[0];
+        if (objects.Count > 0)
+            return objects[0];
         return null;
     }
 }
