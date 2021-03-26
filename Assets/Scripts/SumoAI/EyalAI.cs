@@ -4,9 +4,6 @@ using System.Collections.Generic;
 
 public class EyalAI : SumoBaseAI
 {
-    List<Sumo> otherSumos;
-    Vector2 objectiveCenter;
-
     [Header("References")]
     [SerializeField] GameHandler GH;
     [SerializeField] Transform objectiveCircle;
@@ -17,6 +14,8 @@ public class EyalAI : SumoBaseAI
     [SerializeField] float enemyTargetingRotationOffset;
     [SerializeField] float pickupTargetingRotationOffset;
     [SerializeField] float pickupDistance;
+    List<Sumo> otherSumos;
+    Vector2 objectiveCenter;
 
     protected override void Start()
     {
@@ -49,7 +48,7 @@ public class EyalAI : SumoBaseAI
 
     bool AvoidAttacks()
     {
-        if (!isDodging) // If I have a dodge right now
+        if (!isDodging) // If dodge is not on cooldown
         {
             List<Sumo> SumosWithinRange = GetSumoWithinRange(otherSumos, transform.position, distanceForDefence);
             Sumo targetSumo = GetClosestPushingSumo(SumosWithinRange);
@@ -75,8 +74,9 @@ public class EyalAI : SumoBaseAI
 
     bool EngageWithPowerup()
     {
+        // Currently only targeting point bundles because other powerups feel useless
         List<PowerUpPointBundle> powerups = new List<PowerUpPointBundle>(FindObjectsOfType<PowerUpPointBundle>());
-        Powerup closestPowerupToMe = GetClosestGameObject(powerups.ConvertAll(p => p.gameObject), transform.position)?.GetComponent<PowerUpPointBundle>();
+        PowerUpPointBundle closestPowerupToMe = GetClosestGameObject(powerups.ConvertAll(p => p.gameObject), transform.position)?.GetComponent<PowerUpPointBundle>();
         if (closestPowerupToMe != null)
         {
             float myDistanceToClosestPowerup = Vector3.Distance(transform.position, closestPowerupToMe.transform.position);
@@ -108,6 +108,8 @@ public class EyalAI : SumoBaseAI
         Sumo targetSumo = GetSumoWithMostPoints(SumosWithinRange);
         Quaternion rotTowardsTarget = Quaternion.LookRotation(targetSumo.transform.position - transform.position);
         Quaternion myCurrRotation = transform.localRotation;
+
+        // Checking if distance between center of circle to sumo is less or equals than the radius -> is inside the circle
         bool isSumoInCircle = Vector3.Distance(targetSumo.transform.position, objectiveCenter) <= (GH.ringCollider.radius * GH.ringCollider.transform.localScale.y);
 
         if (isSumoInCircle)
