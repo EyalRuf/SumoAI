@@ -90,13 +90,16 @@ public class GameHandler : MonoBehaviour
             {
                 player.GetComponent<Points>().UpdatePoints(pointModifier);
 
-                if (player.GetComponent<Points>().points >= pointWinRequirement * 0.9f && !tenseMusicPlaying)
+                if (player.GetComponent<Points>().points >= pointWinRequirement * 0.8f && !tenseMusicPlaying)
                 {
                     battleMusic.Stop();
                     tenseMusic.Play();
                     tenseMusicPlaying = true;
                 }
+            }
 
+            foreach (Sumo player in FindObjectsOfType<Sumo>())
+            {
                 if (player.GetComponent<Points>().points >= pointWinRequirement)
                 {
                     winners.Add(player.gameObject);

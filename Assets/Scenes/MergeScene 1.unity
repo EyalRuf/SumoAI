@@ -26542,6 +26542,11 @@ PrefabInstance:
       propertyPath: ringCollider
       value: 
       objectReference: {fileID: 1380675526750567}
+    - target: {fileID: 1706406914214676765, guid: af13623b698c5ac48a8992bfd09ef9e4,
+        type: 3}
+      propertyPath: pointWinRequirement
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 1706406914214676766, guid: af13623b698c5ac48a8992bfd09ef9e4,
         type: 3}
       propertyPath: m_Name
@@ -26722,7 +26727,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1252d70f3d847b440a75bfa704cb650d, type: 2}
+  - {fileID: 2100000, guid: 2b78d8bc49a09c74180e34510a4503ad, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -28237,7 +28242,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1252d70f3d847b440a75bfa704cb650d, type: 2}
+  - {fileID: 2100000, guid: 30f1736f10c1f0249bb4da99ef8ba196, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -28306,16 +28311,18 @@ MonoBehaviour:
   isDodging: 0
   dodgeCD: 3
   dodgeDuration: 0.5
-  originalMat: {fileID: 2100000, guid: 1252d70f3d847b440a75bfa704cb650d, type: 2}
-  dodgeMat: {fileID: 2100000, guid: f12df0f6b8464274aa22130074b73e3c, type: 2}
+  originalMat: {fileID: 2100000, guid: 2b78d8bc49a09c74180e34510a4503ad, type: 2}
+  dodgeMat: {fileID: 2100000, guid: 6773309ff8cd5fb45b97220997433fd1, type: 2}
   currObjective: 2
   destination: {x: 0, y: 0}
   rotateToY: 0
+  GH: {fileID: 1668082601545418872}
   objectiveCircle: {fileID: 4485564536029659}
-  minSumoRangeForGeneralEngagement: 6
-  distanceForAttack: 4
+  distanceForAttack: 10
   distanceForDefence: 5
-  opponentSumoTargetingOffset: 20
+  enemyTargetingRotationOffset: 10
+  pickupTargetingRotationOffset: 2.5
+  pickupDistance: 10
 --- !u!1 &3486317203003174295
 GameObject:
   m_ObjectHideFlags: 0
@@ -28500,7 +28507,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 30f1736f10c1f0249bb4da99ef8ba196, type: 2}
+  - {fileID: 2100000, guid: 1252d70f3d847b440a75bfa704cb650d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -28569,16 +28576,18 @@ MonoBehaviour:
   isDodging: 0
   dodgeCD: 3
   dodgeDuration: 0.5
-  originalMat: {fileID: 2100000, guid: 30f1736f10c1f0249bb4da99ef8ba196, type: 2}
-  dodgeMat: {fileID: 2100000, guid: 2b24aebd13f05dd428dfa7bf0fe9cdeb, type: 2}
+  originalMat: {fileID: 2100000, guid: 1252d70f3d847b440a75bfa704cb650d, type: 2}
+  dodgeMat: {fileID: 2100000, guid: f12df0f6b8464274aa22130074b73e3c, type: 2}
   currObjective: 2
   destination: {x: 0, y: 0}
   rotateToY: 0
+  GH: {fileID: 1668082601545418872}
   objectiveCircle: {fileID: 4485564536029659}
-  minSumoRangeForGeneralEngagement: 6
-  distanceForAttack: 4
+  distanceForAttack: 10
   distanceForDefence: 5
-  opponentSumoTargetingOffset: 20
+  enemyTargetingRotationOffset: 10
+  pickupTargetingRotationOffset: 2.5
+  pickupDistance: 30
 --- !u!4 &3486317203172981698
 Transform:
   m_ObjectHideFlags: 0
