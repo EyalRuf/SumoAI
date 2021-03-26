@@ -186,6 +186,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PowerupPointsK
       objectReference: {fileID: 0}
+    - target: {fileID: 8538659700644443652, guid: 63bbb2dc064033e46952fbc34993d954,
+        type: 3}
+      propertyPath: m_TagString
+      value: PointsPowerUp
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8344117857266685942, guid: 63bbb2dc064033e46952fbc34993d954, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 63bbb2dc064033e46952fbc34993d954, type: 3}
