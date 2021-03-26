@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class RichardAI : MonoBehaviour
 {
+//------------------------------
+//RICHARD AI!
+//Last update: 24/03/21 - Finalized dodge before the first test
+//------------------------------
 
-    /// <summary>
-    /// Rename some of these variables
-    /// Clean up powerup code
-    /// Add pointbundle check
-    /// Add players around powerup check
-    /// </summary>
 
     [Header("Settings")]
     [SerializeField] float powerUpSearchRadius;
@@ -23,15 +21,14 @@ public class RichardAI : MonoBehaviour
     //Ring variables
     GameObject ring;
     float ringRadius;
-    float GetInsideRingRadius;
 
-    enum RingState { inside, closeInside, outside };
+    enum RingState { inside, outside };
     RingState ringState;
 
     enum ActionState { evade, returnToRing, attack, gettingPowerup};
     ActionState actionState;
 
-    //Targets
+    //Target variables
     GameObject powerUpTarget;
     GameObject attackTarget;
 
@@ -58,7 +55,6 @@ public class RichardAI : MonoBehaviour
             otherSumos.Add(sumo.gameObject);
         }
 
-        //otherSumos.AddRange(GameObject.FindGameObjectsWithTag("Player"));
         otherSumos.Remove(gameObject);
 
         //Just to be sure, I check for all possibilities, because the 6 of us can edit the game. The code has got to be flexible for it.
@@ -76,7 +72,6 @@ public class RichardAI : MonoBehaviour
         }
 
         ringRadius = ring.transform.localScale.z / 2; //Get the radius of the ring
-        GetInsideRingRadius = ringRadius * 0.7f; //Make the radius smaller to pursuade the AI to get deeper into the ring
     }
 
     void Update()
@@ -141,11 +136,11 @@ public class RichardAI : MonoBehaviour
     {
         switch (actionState)
         {
-            case ActionState.returnToRing://--TODO: Stop going towards the ring once you are a bit closer to the center--//
+            case ActionState.returnToRing:
                 baseAI.destination = new Vector2(ring.transform.position.x, ring.transform.position.z);
                 baseAI.rotateToY = Quaternion.LookRotation(ring.transform.position - transform.position).eulerAngles.y;
                 break;
-            case ActionState.evade: //--TODO: Make the player move unpredictably--//
+            case ActionState.evade:
                 baseAI.destination = new Vector2(ring.transform.position.x, ring.transform.position.z);
                 baseAI.rotateToY = Quaternion.LookRotation(ring.transform.position - transform.position).eulerAngles.y;
                 break;
@@ -210,6 +205,130 @@ public class RichardAI : MonoBehaviour
         actionState = ActionState.returnToRing;
     }
 
+    //Calculates the distance between the powerups, and then decides which one is the closest, and thus the best one to get
+    bool CalculatePriority(List<GameObject> powerupList)
+    {
+        List<GameObject> chosenPowerUps = new List<GameObject>();
+        List<float> distanceValues = new List<float>();
+
+        for (int i = 0; i < powerupList.Count; i++)
+        {
+            if (Vector3.Distance(transform.position, powerupList[i].transform.position) < powerUpSearchRadius)
+            {
+                chosenPowerUps.Add(powerupList[i]);
+                distanceValues.Add(Vector3.Distance(transform.position, powerupList[i].transform.position));
+            }
+        }
+
+        //Picks the closest powerup and sets it as it's target
+        if (chosenPowerUps.Count > 1)
+        {
+            int bestChoiceIndex = 0;
+            float lowestValue = 100f;
+            int timesRunThrough = 0;
+
+            foreach (var value in distanceValues)
+            {
+                if (value < lowestValue)
+                {
+                    bestChoiceIndex = timesRunThrough;
+                    lowestValue = value;
+                }
+
+                timesRunThrough++;
+            }
+
+            powerUpTarget = chosenPowerUps[bestChoiceIndex];
+            Debug.Log(lowestValue + ", " + powerUpTarget.name);
+            return true;
+        }
+        else if (chosenPowerUps.Count == 1) //Just one powerup in range
+        {
+            powerUpTarget = chosenPowerUps[0];
+            return true;
+        }
+        else //No powerups in range
+        {
+            return false;
+        }
+    }
+
+
+    void DodgeCalculation()
+    {
+        //For every sumo, update their current position and compare it to their previous position, and from that create a velocity value, of which you get the speed.
+        for (int i = 0; i < otherSumos.Count; i++)
+        {
+            Vector3 direction = new Vector3(0, 0, 0);
+            float speed = 0f;
+
+            if (sumoFirstFrame.Count == 0)
+            {
+                for (int j = 0; j < otherSumos.Count; j++)
+                {
+                    sumoFirstFrame.Add(otherSumos[j].transform.position);
+                }
+                
+                sumoFirstFrame[i] = otherSumos[i].transform.position;
+                return;
+            }
+            else if (sumoSecondFrame.Count == 0)
+            {
+                for (int j = 0; j < otherSumos.Count; j++)
+                {
+                    sumoSecondFrame.Add(otherSumos[j].transform.position);
+                }
+            }
+
+            //This is where it sadly starts to get iffy. The position of the sumo between 2 frames can sometimes be exactly the same, resulting in a speed of 0.
+            //However, if we take multiple frames, then we can get a speed value. Through Debugging, the push speed is averaged at 13f per 5 frames.
+            //The average speed for 10 frames, is 22f, so the check will use 18 for now.
+            //This is to deal with the values that are a bit off. Using more frames gives more accurate results, but results in a longer reaction time.
+            else
+            {
+                if(frameCounter == 0)
+                {
+                    sumoFirstFrame[i] = sumoSecondFrame[i];
+                }
+                else if(frameCounter == 10)
+                {
+                    sumoSecondFrame[i] = otherSumos[i].transform.position;
+                    direction = (sumoSecondFrame[i] - sumoFirstFrame[i]) / Time.fixedDeltaTime;
+                    speed = direction.magnitude;
+                }
+            }
+
+            //If the speed of the other sumo is comparable to a push attack
+            if (!hasDodged && speed > 18 && speed < 200) //Safety checks: The speed can sometimes be somewhere around 300 at the first calculation + 0.1 is added to make some wiggle room for error in the calculations
+            {
+                RaycastHit ray;
+
+                if (Physics.Raycast(otherSumos[i].transform.position, otherSumos[i].transform.forward, out ray, 1000f))
+                {
+                    if (ray.transform.CompareTag("Player")) //If the other sumo is looking/aiming at the AI
+                    {
+                        if ((transform.position - otherSumos[i].transform.position).sqrMagnitude < 2 * 2) //If the AI is close (this makes sure that the AI doesn't randomly dodges due to calculation errors, and so they can make up for prediction angles)
+                        {
+                            actionState = ActionState.evade;
+                            baseAI.currObjective = AiObjective.dodge;
+                            hasDodged = true;
+                            StartCoroutine(ResetDodge());
+                        }
+                    }
+                }
+            }
+        }
+
+        if(frameCounter == 10)
+        {
+            frameCounter = 0;
+        }
+        else
+        {
+            frameCounter++;
+        }
+    }
+
     void Attack()
     {
         //This is to get the velocity from the target without calling the rigidbody.velocity, which always returns 0 because the movement isn't force based, but position based.
@@ -262,168 +381,6 @@ public class RichardAI : MonoBehaviour
             {
                 baseAI.rotateToY = Quaternion.LookRotation(attackTarget.transform.position - transform.position).eulerAngles.y;
             }
-        }
-    }
-
-    bool CalculatePriority(List<GameObject> powerupList)
-    {
-        //float threshold = 100f;
-        //float initial = 70f;
-        //float constant = 160f;
-
-        List<GameObject> chosenPowerUps = new List<GameObject>();
-        List<float> distanceValues = new List<float>();
-
-        for (int i = 0; i < powerupList.Count; i++)
-        {
-            //float priority = initial + (constant / Vector3.Distance(transform.position, powerupList[i].transform.position));
-            if (Vector3.Distance(transform.position, powerupList[i].transform.position) < powerUpSearchRadius)
-            {
-                chosenPowerUps.Add(powerupList[i]);
-                distanceValues.Add(Vector3.Distance(transform.position, powerupList[i].transform.position));
-            }
-            //if (priority >= threshold) //If the powerup is close enough to be worth getting
-            //{
-            //    chosenPowerUps.Add(powerupList[i]);
-            //    priorityValues.Add(Vector3.Distance(transform.position, powerupList[i].transform.position));
-            //}
-        }
-
-        //Picks the closest powerup and sets it as it's target
-        if (chosenPowerUps.Count > 1)
-        {
-            int bestChoiceIndex = 0;
-            float lowestValue = 100f;
-            int timesRunThrough = 0;
-
-            foreach (var value in distanceValues)
-            {
-                if (value < lowestValue)
-                {
-                    bestChoiceIndex = timesRunThrough;
-                    lowestValue = value;
-                }
-
-                timesRunThrough++;
-            }
-
-            powerUpTarget = chosenPowerUps[bestChoiceIndex];
-            Debug.Log(lowestValue + ", " + powerUpTarget.name);
-            return true;
-        }
-        else if (chosenPowerUps.Count == 1)
-        {
-            powerUpTarget = chosenPowerUps[0];
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-
-    //List<float> what = new List<float>();
-
-    void DodgeCalculation()
-    {
-        //For every sumo, update their current position and compare it to their previous position, and from that create a velocity value, of which you get the speed.
-        for (int i = 0; i < otherSumos.Count; i++)
-        {
-            Vector3 direction = new Vector3(0, 0, 0);
-            float speed = 0f;
-
-            if (sumoFirstFrame.Count == 0)
-            {
-                for (int j = 0; j < otherSumos.Count; j++)
-                {
-                    sumoFirstFrame.Add(otherSumos[j].transform.position);
-                }
-                
-                sumoFirstFrame[i] = otherSumos[i].transform.position;
-                return;
-            }
-            else if (sumoSecondFrame.Count == 0)
-            {
-                for (int j = 0; j < otherSumos.Count; j++)
-                {
-                    sumoSecondFrame.Add(otherSumos[j].transform.position);
-                }
-            }
-
-            //This is where it sadly starts to get iffy. The position of the sumo between 2 frames can sometimes be exactly the same, resulting in a speed of 0.
-            //However, if we take multiple frames, then we can get a speed value. Through Debugging, the push speed is averaged at 13f per 5 frames.
-            //The average speed for 10 frames, is 22f, so the check will use 18 for now.
-            //This is to deal with the values that are a bit off. Using more frames gives more accurate results, but results in a longer reaction time.
-            else
-            {
-                if(frameCounter == 0)
-                {
-                    sumoFirstFrame[i] = sumoSecondFrame[i];
-                }
-                else if(frameCounter == 10)
-                {
-                    sumoSecondFrame[i] = otherSumos[i].transform.position;
-                    direction = (sumoSecondFrame[i] - sumoFirstFrame[i]) / Time.fixedDeltaTime;
-                    speed = direction.magnitude;
-
-                //    what.Add(speed);
-
-                //    float min = 1110f;
-                //    float max = 0f;
-                //    float sum = 0f;
-                //    float average = 0f;
-                //    for (int j = 0; j < what.Count; j++)
-                //    {
-                //        if(what[j] < min)
-                //        {
-                //            min = what[j];
-                //        }
-                //        if(what[j] > max)
-                //        {
-                //            max = what[j];
-                //        }
-
-                //        sum += what[j];
-                //    }
-
-                //    average = sum / what.Count;
-
-                //    Debug.Log(min + ", " + max + ", " + average);
-                //    Debug.Log(direction);
-                //    Debug.Log(speed);
-                }
-            }
-            Debug.DrawRay(otherSumos[i].transform.position, otherSumos[i].transform.forward, new Color(255, 0, 255));
-
-            //If the speed of the other sumo is comparable to a push attack
-            if (!hasDodged && speed > 18 && speed < 200) //Safety checks: The speed can sometimes be somewhere around 300 at the first calculation + 0.1 is added to make some wiggle room for error in the calculations
-            {
-                RaycastHit ray;
-
-                if (Physics.Raycast(otherSumos[i].transform.position, otherSumos[i].transform.forward, out ray, 1000f))
-                {
-                    if (ray.transform.CompareTag("Player")) //If the other sumo is looking/aiming at the AI
-                    {
-                        if ((transform.position - otherSumos[i].transform.position).sqrMagnitude < 2 * 2) //If the AI is close (this makes sure that the AI doesn't randomly dodges due to calculation errors, and so they can make up for prediction angles)
-                        {
-                            actionState = ActionState.evade;
-                            baseAI.currObjective = AiObjective.dodge;
-                            hasDodged = true;
-                            StartCoroutine(ResetDodge());
-                        }
-                    }
-                }
-            }
-        }
-
-        if(frameCounter == 10)
-        {
-            frameCounter = 0;
-        }
-        else
-        {
-            frameCounter++;
         }
     }
 
