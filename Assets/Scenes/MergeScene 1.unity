@@ -15612,7 +15612,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d07d786c23accb4d9ac0a06f9615aca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotateSpeed: 0.025
+  rotateSpeed: 0.015
   cycleSpeed: 0
   xRotation: 0
   intensity: 0.6
@@ -26545,7 +26545,7 @@ PrefabInstance:
     - target: {fileID: 1706406914214676765, guid: af13623b698c5ac48a8992bfd09ef9e4,
         type: 3}
       propertyPath: pointWinRequirement
-      value: 15
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 1706406914214676766, guid: af13623b698c5ac48a8992bfd09ef9e4,
         type: 3}
@@ -27084,7 +27084,6 @@ MonoBehaviour:
   destination: {x: 0, y: 0}
   rotateToY: 0
   gameHandler: {fileID: 1668082601545418872}
-  closestSumo: {fileID: 0}
 --- !u!82 &3486317201841873832
 AudioSource:
   m_ObjectHideFlags: 0
