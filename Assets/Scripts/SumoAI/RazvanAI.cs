@@ -5,28 +5,27 @@ using UnityEngine;
 public class RazvanAI : SumoBaseAI
 {
     public List<Sumo> oSumo;
-    List<Powerup> powerUps;
 
     public Transform ring;
     Transform trans = null;
 
     Vector2 ringCenter;
 
-    float playerRadius = 3f;
-    float pUpRadius = 5f;
+    float playerRadius = 2f;
+    //float pUpRadius = 5f;
     float dist;
     public float power;
 
-    bool isAggressive;
-    bool isDeffensive;
+    bool isAggressive = false;
+    bool isDeffensive = false;
     bool pushed;
+    bool pickedUp = false;
 
     protected override void Start()
     {
         base.Start();
         ringCenter = new Vector2(ring.position.x, ring.position.z);
-        destination = ringCenter;
-        powerUps = new List<Powerup>(FindObjectsOfType<Powerup>());
+        //destination = ringCenter;
     }
 
     private void Update()
@@ -50,32 +49,75 @@ public class RazvanAI : SumoBaseAI
         }
 
         getClosestSumoDist();
-        Debug.Log(getClosestSumo());
-
-        //Saves dist between player and closest sumo
-        //float dist = Vector3.Distance(this.transform.position, trans.transform.position);
 
         Sumo sumoWithmostPoints = this.displaySumoWithMostPoints();
 
+        Powerup[] powerUps;
+        powerUps = FindObjectsOfType<Powerup>();
+
+        float nearestPU = Mathf.Infinity;//nearest power up
+        Vector3 curPos = transform.position;
+        Powerup p = null;
+        Powerup pointPU = null;
+
+        Quaternion rotTowards = Quaternion.LookRotation(sumoWithmostPoints.transform.position - transform.position);
+
         if (isAggressive)
         {
-            Quaternion rotTowards = Quaternion.LookRotation(sumoWithmostPoints.transform.position - transform.position);
             float angle = rotTowards.eulerAngles.y;
             this.rotateToY = angle;
-            destination = new Vector2(sumoWithmostPoints.transform.position.x, sumoWithmostPoints.transform.position.z);
 
             dist = Vector3.Distance(this.transform.position, sumoWithmostPoints.transform.position);
 
-            if(dist < playerRadius && isPushing == false)
+            if (dist <= playerRadius && isPushing == false && sumoWithmostPoints.isDodging == false)
             {
                 Push();
+            }
+
+            if (this.getClosestSumo().isPushing && this.isDodging == false && dist < playerRadius)
+            {
+                Dodge();
+            }
+
+            foreach (Powerup pUp in powerUps)
+            {
+                Vector2 thisPos = new Vector2(this.trans.position.x, this.transform.position.z);
+
+                if (pUp.tag == "PointsPowerUp")
+                {
+                    pointPU = pUp;
+                    Vector2 dst = new Vector2(pointPU.transform.position.x, pointPU.transform.position.z);
+                    destination = dst;
+                    StartCoroutine(waitToPickUp());
+                    
+                    /*if(thisPos != ringCenter)
+                    {
+                        if(pUp.tag == "PowerUp")
+                        {
+                            p = pUp;
+                            Debug.Log(p);
+                            Vector2 dst2 = new Vector2(p.transform.position.x, p.transform.position.z);
+                            destination = dst2;
+                            StartCoroutine(waitToPickUp());
+                        }
+                    }*/
+                } 
+
+                if (pickedUp)
+                {
+                    destination = ringCenter;
+                    pointPU = null;
+                    pickedUp = false;
+                }
+
             }
         }
 
         if (isDeffensive)
         {
+            //daca sunt defensiv si ma uit la unu cu puncte mai putine ca mine, schimb sumou
             //rotates towards the closest sumo
-            Quaternion rotTowardsSumo = Quaternion.LookRotation(trans.transform.position - transform.position);
+            Quaternion rotTowardsSumo = Quaternion.LookRotation(trans.transform.position - transform.position);//ar fi tot sumou cu cele mai multe puncte
             float angleTowards = rotTowardsSumo.eulerAngles.y;
             this.rotateToY = angleTowards;
 
@@ -86,53 +128,26 @@ public class RazvanAI : SumoBaseAI
                 Dodge();
             }
 
-            // aici ma duc dupa powerups daca am unu aproape
-            /*Transform closestPowerUp = getClosestPointsDistance();// saves t
-            float myPnts = GetComponent<Points>().points;
-            Debug.Log(getClosestPointsDistance());*/
-
-            /*float distanceUntillRing = Vector3.Distance(this.transform.position, ring.transform.position);
-            float distanceUntillPowerUp = Vector3.Distance(this.transform.position, closestPowerUp.transform.position);*/
-
-            /*if (myPnts - 2 > displaySumoWithMostPoints().GetComponent<Points>().points)
+            foreach (Powerup pUp in powerUps)
             {
-                if(distanceUntillRing < distanceUntillPowerUp)
+                if (pUp.tag == "PointsPowerUp")
                 {
-                    destination = distanceUntillPowerUp.position;
-                } else
+                    pointPU = pUp;
+                    Vector2 dst = new Vector2(pointPU.transform.position.x, pointPU.transform.position.z);
+                    destination = dst;
+                    StartCoroutine(waitToPickUp());
+                }
+
+                if (pickedUp)
                 {
                     destination = ringCenter;
+                    pointPU = null;
+                    pickedUp = false;
                 }
-            }*/
-            
-        }
 
-    }
-
-    private Transform getClosestPointsDistance()
-    {
-
-        float nearestPU = Mathf.Infinity;
-        Vector3 curPos = transform.position;
-        Transform t = null;
-
-        foreach(Powerup pUp in powerUps)
-        {
-            float d = Vector3.Distance(pUp.transform.position, curPos);
-            if(d < nearestPU)
-            {
-                t = pUp.transform;
-                nearestPU = d;
             }
         }
-
-        return t;
     }
-
-    /*Powerup closestPowerUp()
-    {
-
-    }*/
 
     //Returns the sumo with most points
     private Sumo displaySumoWithMostPoints()
@@ -210,8 +225,6 @@ public class RazvanAI : SumoBaseAI
 
     private void breakFree()
     {
-        //Vreau ceva care sa impinga tot in juru playerului meu
-
         Vector3 breakFreePos = this.transform.position;
         Collider[] colliders = Physics.OverlapSphere(breakFreePos, playerRadius);
 
@@ -228,48 +241,25 @@ public class RazvanAI : SumoBaseAI
 
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.collider.CompareTag("Player") || collision.collider.CompareTag("Obstacle"))
+        if (collision.collider.CompareTag("Player"))
+        {
+            if (isDeffensive)
+            {
+                breakFree();
+            }
+        }
+
+        if (collision.collider.CompareTag("Obstacle"))
         {
             breakFree();
-            Debug.Log("BreakFree");
-            //Retreat
         }
     }
 
-}
-
-/*Ideeas
-     * in start:    - find center coordinates
-     *              - get oSumo coordinates
-     *              - 
-     *
-     * 
-     * FindObjectOfType<Powerup>()
-     * if this.sumo has most points => get some powerups
-     * else play aggressive/deffensive
-     * 
-     * Requirements:    - function to get oSumo's points
-     *                  - what is the distance between the this.Sumo and oSumo?
-     *                  - which oSumo is nearest to this.Sumo
-     *                  - oSumo is pushing?
-     */
-
-/*if (Vector3.Distance(this.transform.position, trans.transform.position) < 5f)
+    IEnumerator waitToPickUp()
     {
-        Push();
+        yield return new WaitForSeconds(6f);
+        pickedUp = true;
+
     }
 
-    if (Vector3.Distance(this.transform.position, trans.transform.position) < 5f)
-    {
-        Dodge();
-    }*/
-
-/*if sumo is in center, this.sumo push
- * if this.sumo is in center -> dodge
-
- * if closest sumo with most points within range ->rotate towards 
- *                                              ->push outside of circle
- * if this.sumo has most points defend -> dodge
- *                                     -> pick up powerups
-
- */
+}

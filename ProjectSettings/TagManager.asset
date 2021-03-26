@@ -13,6 +13,7 @@ TagManager:
   - PowerUp
   - Ring
   - Sumo
+  - PointsPowerUp
   layers:
   - Default
   - TransparentFX
