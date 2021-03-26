@@ -21,11 +21,7 @@ public class KrisAI : SumoBaseAI
     // Update is called once per frame
     void Update()
     {
-        Sumo closestSumo = FindClosestSumo();
-        Sumo groupedSumo = FindGroupedSumo();
-        Powerup closestPUp = FindClosestPowerUp();
-
-        DecisionMaking(closestSumo,groupedSumo,closestPUp,ring);        
+        DecisionMaking(FindClosestSumo(),FindGroupedSumo(),FindClosestPowerUp(),ring);        
     }
 
     //Finds closest sumo
@@ -57,9 +53,6 @@ public class KrisAI : SumoBaseAI
     //Finds a sumo that's the closest to all sumos - center of the group
     private Sumo FindGroupedSumo()
     {
-        Sumo[] gos1;
-        gos1 = FindObjectsOfType<SumoBaseAI>();
-
         Sumo grouped = null;
         float groupDistance = Mathf.Infinity;
         /*
@@ -68,23 +61,21 @@ public class KrisAI : SumoBaseAI
          *   defines that one as the center of the group
          *
          */
-        foreach (Sumo go1 in gos1)
+        foreach (Sumo sumo in sumos)
         {
-            if (go1.Equals(this.gameObject))
-                continue;
             Sumo[] gos2;
             gos2 = FindObjectsOfType<SumoBaseAI>();
             float sumDistance = 0;
             foreach (Sumo go2 in gos2)
             {
-                Vector3 diff = go2.transform.position - go1.transform.position;
+                Vector3 diff = go2.transform.position - sumo.transform.position;
                 float curDistance = diff.sqrMagnitude;
                 sumDistance += curDistance;
             }
             if (groupDistance > sumDistance)
             {
                 groupDistance = sumDistance;
-                grouped = go1;
+                grouped = sumo;
             }
         }
         return grouped;
@@ -124,21 +115,26 @@ public class KrisAI : SumoBaseAI
     }
 
     //Calculates the destination vector for the ai to travel with
-    private Vector2 CalculateDestination(GameObject go)
+    private Vector2 CalculateDestination(Transform transform)
     {
-        Vector2 dest = new Vector2(go.transform.position.x, go.transform.position.z);
+        Vector2 dest = new Vector2(transform.position.x, transform.position.z);
         return dest;
     }
 
     //Makes all the decisions
     private void DecisionMaking(Sumo closestSumo, Sumo groupedSumo, Powerup closestPowerUp, Transform objectiveCircle)
     {
-        if ((closestSumo.transform.position - transform.position).sqrMagnitude < 3) //If the closest sumo is closer than 3 units away do the following
+        //If the closest sumo is closer than 3 units away do the following
+        if ((closestSumo.transform.position - transform.position).sqrMagnitude < 3) 
         {
-            if (closestSumo == groupedSumo && !isPushing) //if the closest sumo is the grouped sumo (=> if my Ai is closest to the center of the group) and I can push then push away from the group
+            /*
+             * if the closest sumo is the grouped sumo (=> if my Ai is closest to the center of the group)
+             * and I can push then push away from the group
+             */
+            if (closestSumo == groupedSumo && !isPushing) 
             {
                 currObjective = AiObjective.push;
-                this.destination = CalculateDestination(closestSumo.gameObject);
+                this.destination = CalculateDestination(closestSumo.transform);
                 this.rotateToY = -CalculateAngle(closestSumo.transform);
             }
             else if (!isDodging) //otherwise if i can dodge then dodge
@@ -150,18 +146,18 @@ public class KrisAI : SumoBaseAI
                 currObjective = AiObjective.idle;
             }
         }
-        else if (closestPowerUp != null && closestPowerUp.GetComponent<PowerUpPointBundle>() != null) //if the closest powerup to me is the points bundle run for it
+        //if the closest powerup to me is the points bundle run for it
+        else if (closestPowerUp != null && closestPowerUp.GetComponent<PowerUpPointBundle>() != null) 
         {
             currObjective = AiObjective.dodge;
-            this.destination = CalculateDestination(closestPowerUp.gameObject);
+            this.destination = CalculateDestination(closestPowerUp.transform);
             this.rotateToY = CalculateAngle(closestPowerUp.transform); ;
         }
         else // if all else fails come back to the ring center
         {
             currObjective = AiObjective.idle;
-            this.destination = CalculateDestination(ring.gameObject);
+            this.destination = CalculateDestination(ring.transform);
             this.rotateToY = CalculateAngle(ring.transform);
         }
     }
-
 }
