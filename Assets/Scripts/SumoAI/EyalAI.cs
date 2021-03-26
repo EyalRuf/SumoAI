@@ -4,34 +4,19 @@ using System.Collections.Generic;
 
 public class EyalAI : SumoBaseAI
 {
-    [Header("References")]
-    [SerializeField] Transform objectiveCircle;
-
-    // Objectives
     List<Sumo> otherSumos;
     Vector2 objectiveCenter;
-    float objectiveRadius = 10;
-    [SerializeField] float minSumoRangeForGeneralEngagement;
 
-    // Attack
+    [Header("References")]
+    [SerializeField] GameHandler GH;
+    [SerializeField] Transform objectiveCircle;
+
+    [Header("Variables")]
     [SerializeField] float distanceForAttack;
-
-    // Defence
     [SerializeField] float distanceForDefence;
-    [SerializeField] float opponentSumoTargetingOffset;
-
-    // ### Ideas ###
-
-    // Don't attack people who have less points than u
-
-    // Ring center + dodging/pushing
-    // Sumos that are close and pushing -> dodge / push to their direction
-
-    // Sumo Projections?
-    // Obstacles?
-    // Powerups?
-    
-    // Target sumo with most points
+    [SerializeField] float enemyTargetingRotationOffset;
+    [SerializeField] float pickupTargetingRotationOffset;
+    [SerializeField] float pickupDistance;
 
     protected override void Start()
     {
@@ -39,7 +24,6 @@ public class EyalAI : SumoBaseAI
         otherSumos = new List<Sumo>(FindObjectsOfType<Sumo>());
         otherSumos.Remove(this);
         objectiveCenter = new Vector2(objectiveCircle.position.x, objectiveCircle.position.z);
-        objectiveRadius = objectiveCircle.GetComponent<SphereCollider>().radius * objectiveCircle.transform.localScale.y;
         destination = objectiveCenter;
     }
 
@@ -47,71 +31,100 @@ public class EyalAI : SumoBaseAI
     void Update()
     {
         // Do I have the most points? -> be defensive
-        bool defenceFlag = GetComponent<Points>().points > GetSumoWithMostPoints(otherSumos).GetComponent<Points>().points;
-        
-        //// Closest to powerup? GO!
-        //List<Powerup> powerups = new List<Powerup>(FindObjectsOfType<Powerup>());
-        //Powerup closestPowerupToMe = GetClosestGameObject(powerups.ConvertAll(p => p.gameObject), transform.position).GetComponent<Powerup>();
-        //float myDistanceToClosestPowerup = Vector3.Distance(transform.position, closestPowerupToMe.transform.position);
-        //List<Sumo> sumosCloserToPowerupThanMe = GetSumoWithinRange(otherSumos, closestPowerupToMe.transform.position, myDistanceToClosestPowerup);
+        bool isDefensive = GetComponent<Points>().points > GetSumoWithMostPoints(otherSumos).GetComponent<Points>().points;
 
-        //if (sumosCloserToPowerupThanMe.Count == 0)
-        //{
+        if (AvoidAttacks())
+            return;
 
-        //} else
-        //{
+        if (EngageWithPowerup())
+            return;
 
-        //}
-
-
-        List<Sumo> SumosWithinRange = GetSumoWithinRange(otherSumos, transform.position, minSumoRangeForGeneralEngagement);
-        Sumo closestSumo = GetClosestGameObject(SumosWithinRange.ConvertAll(s => s.gameObject), transform.position).GetComponent<Sumo>();
-        Sumo closestPushingSumo = GetClosestPushingSumo(SumosWithinRange);
-        Sumo targetSumo = closestSumo;
-
-        if (closestPushingSumo != null && Vector3.Distance(closestPushingSumo.transform.position, transform.position) <= distanceForDefence)
+        // Attack() doesn't happen in case we're defensive
+        if (isDefensive || !Attack())
         {
-            targetSumo = closestPushingSumo;
+            destination = objectiveCenter;
+            currObjective = AiObjective.idle;
         }
+    }
 
-        Quaternion rotTowardsTarget = Quaternion.LookRotation(targetSumo.transform.position - transform.position);
-        Quaternion targetRotToMe = Quaternion.LookRotation(transform.position - targetSumo.transform.position);
-        Quaternion myCurrRotation = transform.localRotation;
-        Quaternion targetCurrRot = targetSumo.transform.localRotation;
-
-        // Used push and is rotated my way (or close enough - within the angle offset) -> might hit me
-        if (targetSumo.isPushing && Quaternion.Angle(targetCurrRot, targetRotToMe) <= opponentSumoTargetingOffset)
+    bool AvoidAttacks()
+    {
+        if (!isDodging) // If I have a dodge right now
         {
-            if (!isDodging)
+            List<Sumo> SumosWithinRange = GetSumoWithinRange(otherSumos, transform.position, distanceForDefence);
+            Sumo targetSumo = GetClosestPushingSumo(SumosWithinRange);
+
+            if (targetSumo == null)
+            {
+                return false;
+            }
+
+            Quaternion targetRotToMe = Quaternion.LookRotation(transform.position - targetSumo.transform.position);
+            Quaternion targetCurrRot = targetSumo.transform.localRotation;
+
+            // Is rotated my way (or close enough - within the angle offset) -> might hit me
+            if (Quaternion.Angle(targetCurrRot, targetRotToMe) <= enemyTargetingRotationOffset)
             {
                 currObjective = AiObjective.dodge;
-            } 
-            else if (!isPushing && Quaternion.Angle(myCurrRotation, rotTowardsTarget) <= opponentSumoTargetingOffset)
-            {
-                currObjective = AiObjective.push;
+                return true;
             }
         }
 
-        if (!defenceFlag)
+        return false;
+    }
+
+    bool EngageWithPowerup()
+    {
+        List<PowerUpPointBundle> powerups = new List<PowerUpPointBundle>(FindObjectsOfType<PowerUpPointBundle>());
+        Powerup closestPowerupToMe = GetClosestGameObject(powerups.ConvertAll(p => p.gameObject), transform.position)?.GetComponent<PowerUpPointBundle>();
+        if (closestPowerupToMe != null)
         {
-            SumosWithinRange = GetSumoWithinRange(otherSumos, transform.position, distanceForAttack);
-            targetSumo = GetSumoWithMostPoints(SumosWithinRange);
-            rotTowardsTarget = Quaternion.LookRotation(targetSumo.transform.position - transform.position);
-            myCurrRotation = transform.localRotation;
+            float myDistanceToClosestPowerup = Vector3.Distance(transform.position, closestPowerupToMe.transform.position);
 
-            if (!isPushing && Quaternion.Angle(myCurrRotation, rotTowardsTarget) <= opponentSumoTargetingOffset)
+            if (myDistanceToClosestPowerup <= pickupDistance)
             {
-                currObjective = AiObjective.push;
-            } else
-            {
-                currObjective = AiObjective.idle;
+                Quaternion rotTowardsTarget = Quaternion.LookRotation(closestPowerupToMe.transform.position - transform.position);
+                Quaternion myCurrRotation = transform.localRotation;
+
+                // Push towards the powerup
+                if (!isPushing && Quaternion.Angle(myCurrRotation, rotTowardsTarget) <= pickupTargetingRotationOffset)
+                {
+                    currObjective = AiObjective.push;
+                }
+
+                destination = new Vector2(closestPowerupToMe.transform.position.x, closestPowerupToMe.transform.position.z);
+                rotateToY = rotTowardsTarget.eulerAngles.y;
+
+                return true;
             }
-
-            destination = new Vector2(targetSumo.transform.position.x, targetSumo.transform.position.z);
         }
 
-        float angleTowardsClosestSumo = rotTowardsTarget.eulerAngles.y;
-        this.rotateToY = angleTowardsClosestSumo;
+        return false;
+    }
+
+    bool Attack ()
+    {
+        List<Sumo> SumosWithinRange = GetSumoWithinRange(otherSumos, transform.position, distanceForAttack);
+        Sumo targetSumo = GetSumoWithMostPoints(SumosWithinRange);
+        Quaternion rotTowardsTarget = Quaternion.LookRotation(targetSumo.transform.position - transform.position);
+        Quaternion myCurrRotation = transform.localRotation;
+        bool isSumoInCircle = Vector3.Distance(targetSumo.transform.position, objectiveCenter) <= (GH.ringCollider.radius * GH.ringCollider.transform.localScale.y);
+
+        if (isSumoInCircle)
+        {
+            if (!isPushing && Quaternion.Angle(myCurrRotation, rotTowardsTarget) <= enemyTargetingRotationOffset)
+            {
+                currObjective = AiObjective.push;
+            }
+
+            float angleTowardsClosestSumo = rotTowardsTarget.eulerAngles.y;
+            destination = new Vector2(targetSumo.transform.position.x, targetSumo.transform.position.z);
+            rotateToY = angleTowardsClosestSumo;
+
+            return true;
+        }
+
+        return false;
     }
 
     Sumo GetSumoWithMostPoints(List<Sumo> sumos)
@@ -124,7 +137,7 @@ public class EyalAI : SumoBaseAI
         });
 
         if (sumos.Count > 0)
-            return sumos[0];
+            return sumos[sumos.Count - 1];
         return null;
     }
 
@@ -141,7 +154,7 @@ public class EyalAI : SumoBaseAI
 
     Sumo GetClosestPushingSumo(List<Sumo> sumos)
     {
-        return GetClosestGameObject(sumos.FindAll(s => s.isPushing).ConvertAll(s => s.gameObject), transform.position).GetComponent<Sumo>();
+        return GetClosestGameObject(sumos.FindAll(s => s.isPushing).ConvertAll(s => s.gameObject), transform.position)?.GetComponent<Sumo>();
     }
 
     GameObject GetClosestGameObject(List<GameObject> objects, Vector3 pos)
@@ -152,7 +165,7 @@ public class EyalAI : SumoBaseAI
             float distanceToB = Vector3.Distance(pos, b.transform.position);
             return distanceToA.CompareTo(distanceToB);
         });
-        
+
         if (objects.Count > 0)
             return objects[0];
         return null;
