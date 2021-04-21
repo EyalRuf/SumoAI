@@ -43,6 +43,7 @@ public class EyalAI : SumoBaseAI
         destination = objectiveCenter;
     }
 
+    // Seems like you have a big update loop, would've broken it down into seperate functions to keep the Update as clean as possible. It's not mandatory though
     // Update is called once per frame
     void Update()
     {
@@ -108,6 +109,7 @@ public class EyalAI : SumoBaseAI
     {
         sumos.Sort((a, b) =>
         {
+            // Oof, that's a lot of GetComponents, maybe you should cache the points instead of just the Sumos?
             float aPoints = a.GetComponent<Points>().points;
             float bPoints = b.GetComponent<Points>().points;
             return aPoints.CompareTo(bPoints);
@@ -122,11 +124,18 @@ public class EyalAI : SumoBaseAI
     {
         sumos.FindAll(sumo =>
         {
-            float distanceTo = Vector3.Distance(transform.position, sumo.transform.position);
-            return distanceTo <= range;
+          float distanceTo = Vector3.Distance(transform.position, sumo.transform.position);
+          return distanceTo <= range;
         });
 
         return sumos;
+
+        // Do you really need to return sumos?
+        // return sumos.FindAll(sumo =>
+        //{
+        //  float distanceTo = Vector3.Distance(transform.position, sumo.transform.position);
+        //  return distanceTo <= range;
+        //});
     }
 
     Sumo GetClosestPushingSumo(List<Sumo> sumos)
@@ -134,6 +143,7 @@ public class EyalAI : SumoBaseAI
         return GetClosestSumo(sumos.FindAll(s => s.isPushing));
     }
 
+    // Feels like you just need the transforms, but it is still an okay solution I guess
     Sumo GetClosestSumo(List<Sumo> sumos)
     {
         sumos.Sort((a, b) =>

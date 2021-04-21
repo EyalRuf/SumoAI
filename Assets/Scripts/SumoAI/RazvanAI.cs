@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RazvanAI : SumoBaseAI
 {
+    // Why is it named oSumo?
     public List<Sumo> oSumo;
 
     public Transform ring;
@@ -38,6 +39,7 @@ public class RazvanAI : SumoBaseAI
          * if false, isAggressive becomes true*/
         if (checkIfFirst())
         {
+            // This can be done in an enum, only one of them can be true so it can also be stored in 1 bool
             isDeffensive = true;
             isAggressive = false;
             // aici ma duc dupa powerups daca am unu aproape
@@ -55,6 +57,7 @@ public class RazvanAI : SumoBaseAI
 
         Sumo sumoWithmostPoints = this.displaySumoWithMostPoints();
 
+        // There isn't that much different between aggressive and defensive, could've been refactored in one function with parameters (or an overload of the function)
         if (isAggressive)
         {
             Quaternion rotTowards = Quaternion.LookRotation(sumoWithmostPoints.transform.position - transform.position);
@@ -112,10 +115,12 @@ public class RazvanAI : SumoBaseAI
     private Sumo displaySumoWithMostPoints()
     {
         int maxVal = 0;
+        // Why is it named oSumo?
         Sumo auxSumo = oSumo[0];
 
         foreach(Sumo s in oSumo)
         {
+            // Maybe you can cache the points variable on start, this way you can prevent unnecessary points GetComponent code
             int curVal = s.GetComponent<Points>().points;
             if(curVal > maxVal)
             {
@@ -131,6 +136,7 @@ public class RazvanAI : SumoBaseAI
     //checks if this sumo has more points than the other sumo with most points
     private bool checkIfFirst()
     {
+        // Maybe you can cache the points variable on start, this way you can prevent unnecessary points GetComponent code
         int myPoints = this.GetComponent<Points>().points;
         int abS = this.displaySumoWithMostPoints().GetComponent<Points>().points;
         
@@ -189,6 +195,7 @@ public class RazvanAI : SumoBaseAI
         Vector3 breakFreePos = this.transform.position;
         Collider[] colliders = Physics.OverlapSphere(breakFreePos, playerRadius);
 
+        // I know foreach is leads to better readability, but it's a little bit less cheaper than for loops
         foreach (Collider hit in colliders)
         {
             Rigidbody rb = hit.GetComponent<Rigidbody>();

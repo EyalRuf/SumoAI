@@ -81,6 +81,7 @@ public class ObjectSpawner : MonoBehaviour
                 }
             }
 
+            // See GameHandler for feedback
             yield return StartCoroutine(SpawnPowerUp());
         }
     }

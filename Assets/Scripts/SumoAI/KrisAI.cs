@@ -58,6 +58,7 @@ public class KrisAI : SumoBaseAI
     //Find a sumo that's the closest to all sumos - center of the group
     private Sumo FindGroupedSumo()
     {
+        // Is there a particular reason why you're looking for all sumos again after you've found them in Start?
         Sumo[] gos1;
         gos1 = FindObjectsOfType<SumoBaseAI>();
 
@@ -112,6 +113,7 @@ public class KrisAI : SumoBaseAI
 
     private void DecisionMaking(Sumo closestSumo, Sumo groupedSumo, Powerup closestPowerUp, Transform objectiveCircle)
     {
+        // 3 seems like an arbitrary (magic) number, try to refrain from using magic numbers
         if ((closestSumo.transform.position - transform.position).sqrMagnitude < 3)
         {
             if (closestSumo == groupedSumo && !isPushing)

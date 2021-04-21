@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Would've renamed this script so you can use it for anything that needs rotation.
+// Maybe add a bool if you don't want the sine wave in the Y axis
+// (or the rotation)
 public class Dumpling : MonoBehaviour
 {
     public float degreesPerSecond = 15.0f;
@@ -22,6 +25,8 @@ public class Dumpling : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // You can also used Vector3.up
+        // transform.Rotate(transform.up, degreesPerSecond * Time.deltaTime);
         // Spin object around Y-Axis
         transform.Rotate(new Vector3(0f, Time.deltaTime * degreesPerSecond, 0f), Space.World);
 

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+// Don't push test objects to your repo!!
 public class BoxCast : MonoBehaviour
 {
     float m_MaxDistance;

@@ -61,6 +61,7 @@ public class RichardAI : MonoBehaviour
         //otherSumos.AddRange(GameObject.FindGameObjectsWithTag("Player"));
         otherSumos.Remove(gameObject);
 
+        // This made me giggle a little bit Richard. I miss the "else" statement where you just manually add the ring however :D
         //Just to be sure, I check for all possibilities, because the 6 of us can edit the game. The code has got to be flexible for it.
         if (GameObject.FindGameObjectWithTag("Ring"))
         {
@@ -84,6 +85,7 @@ public class RichardAI : MonoBehaviour
         //Check for powerups. This is shared across inside and outside ring states, so it happens before anything else
         if (powerUpTarget == null) //Reset the state if the powerup is gone (even if it's grabbed by another player), and look for powerups
         {
+            // I would refrain from using Physics in Update, try using it in FixedUpdate to keep it from slowing the game down (in larger projects)
             //Check if there's a powerup nearby
             Collider[] objectsFound = Physics.OverlapSphere(transform.position, powerUpSearchRadius);
             List<GameObject> powerUpsFound = new List<GameObject>();
@@ -91,6 +93,7 @@ public class RichardAI : MonoBehaviour
 
             actionState = ActionState.returnToRing;
 
+            // It's interesting to see that you use other minor optimizations as sqrMagnitude, but you still use foreach instead of a for loop
             if (objectsFound.Length > 0) //If there are objects within the scanned area
             {
                 foreach (var potentialPowerUp in objectsFound) //Checking if any of the scanned objects are powerups

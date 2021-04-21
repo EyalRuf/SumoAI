@@ -76,6 +76,7 @@ public class CameraController : MonoBehaviour
 
     int mod(int a, int n)
     {
+        // Talk about being hard to read with all the different operators in there (including the ternary check)
         return (((a %= n) < 0) && n > 0) || (a > 0 && n < 0) ? a + n : a;
     }
 }

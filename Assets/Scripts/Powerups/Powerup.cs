@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Powerup : MonoBehaviour
 {
+    // Perhaps this could've been done with a protected EventHandler where they can subscribe to. onSumoCollsion?.Invoke()
     void OnCollisionEnter(Collision collision)
     {
         Collider other = collision.collider;

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DayCycle : MonoBehaviour
 {
+    // [SerializeField] also does the job and doesn't require variables to be public
+    // Any programmer can now screw up your otherwise working system
     public float rotateSpeed;
     public float cycleSpeed;
 
@@ -29,6 +31,7 @@ public class DayCycle : MonoBehaviour
         }
     }
 
+    // Who was the person that suddenly changed PascalCase to camelCase?
     public IEnumerator cycle()
     {
         while (true)
@@ -37,6 +40,8 @@ public class DayCycle : MonoBehaviour
             rotate(); 
         }
     }
+
+    // Who was the person that suddenly changed PascalCase to camelCase?
     public void rotate()
     {
         transform.Rotate(Vector3.up * rotateSpeed);

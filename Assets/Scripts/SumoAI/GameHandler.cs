@@ -49,6 +49,8 @@ public class GameHandler : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
+                // Obsolete call, SceneManager.LoadScene has replaced Application.LoadLevel years ago
+                // Go with the changes in time, otherwise your code might break when switching to newer versions
                 Application.LoadLevel(0);
             }
         }
@@ -74,6 +76,11 @@ public class GameHandler : MonoBehaviour
             pointModifier += 1;
 
             Collider[] playerColliders = Physics.OverlapSphere(ringCollider.bounds.center, ringCollider.radius * ringCollider.transform.localScale.y, playerLayerMask);
+
+            // Why are you using a var? You're not reading from a file or anything
+            // var looks up the type on compile time, this isn't necessary when you know the type
+            // A for is the fastest loop by the way, I'm only saying that because you're using this 3 times in a row
+            // Such tiny optimizations save frame rates in larger projects
             foreach (var playerC in playerColliders)
             {
                 playersInRing.Add(playerC.GetComponent<Sumo>());
@@ -108,6 +115,10 @@ public class GameHandler : MonoBehaviour
             pointModifier = resetModifier;
         }
 
+        // Create a variable in your game
+        // while(isRunning)
+        // yield return new WaitForEndOfFrame()
+        // This way you don't have to use a recursive IENumerator
         StartCoroutine(PointCycle());
     }
 
