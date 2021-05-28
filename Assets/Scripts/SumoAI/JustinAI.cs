@@ -7,7 +7,7 @@ public class JustinAI : SumoBaseAI
 
     //Variables
     List<Sumo> sumoList;
-    //List<Powerup> powerUpsList;
+    List<GameObject> obstacleList;
     Transform sumoArena;
     float radius;
 
@@ -27,16 +27,26 @@ public class JustinAI : SumoBaseAI
     // Update is called once per frame
     void Update()
     {
+
         Vector3 sumoArenaDistance = sumoArena.position - transform.position;
 
         float sumoArenaDistanceValue = sumoArenaDistance.sqrMagnitude;
         if (Mathf.Sqrt(sumoArenaDistanceValue) < 0.75*radius)
         {
             //Debug.Log("75% of radius reached");
-            if ((nearestSumoAI().transform.position - transform.position).sqrMagnitude  < 2)
+            if ((nearestSumoAI().transform.position - transform.position).sqrMagnitude < 2)
             {
                 currObjective = AiObjective.dodge;
-                Debug.Log("dodge");
+                ///Debug.Log("dodge");
+            }
+            else if(obstacleFinder() != null && sumoPointsTarget() != null)
+            {
+                Vector2 obstaclePushDestination = 1.2f * sumoPointsTarget().transform.position - obstacleFinder().transform.position;
+                this.destination = obstaclePushDestination;
+                Quaternion rotation = Quaternion.LookRotation(obstaclePushDestination);
+                float sumoLookAngle = rotation.eulerAngles.y;
+                this.rotateToY = sumoLookAngle;
+                currObjective = AiObjective.push;
             }
         }
         else
@@ -108,5 +118,46 @@ public class JustinAI : SumoBaseAI
         }
 
         return nearestPowerUp;
+    }
+
+    private Sumo sumoPointsTarget()
+    {
+        Sumo sumoHighestPoints = null;
+        float sumoPoints = 0;
+
+        foreach (Sumo sumo in sumoList)
+        {
+            float pointsValue = sumo.GetComponent<Points>().points;
+            if (pointsValue > sumoPoints)
+            {
+                sumoPoints = pointsValue;
+                sumoHighestPoints = sumo;
+            }
+
+        }
+
+        return sumoHighestPoints;
+    }
+
+    private GameObject obstacleFinder()
+    {
+        obstacleList = new List<GameObject>(GameObject.FindGameObjectsWithTag("Obstacle"));
+
+        GameObject nearestObstacle = null;
+        float sumoDistance = Mathf.Infinity;
+
+        foreach (GameObject obstacle in obstacleList)
+        {
+            Vector3 distance = obstacle.transform.position - transform.position;
+            float distanceValue = distance.sqrMagnitude;
+            if (distanceValue < sumoDistance)
+            {
+                sumoDistance = distanceValue;
+                nearestObstacle = obstacle;
+            }
+
+        }
+
+        return nearestObstacle;
     }
 }
