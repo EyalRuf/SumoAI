@@ -5,11 +5,13 @@ using UnityEngine;
 public class JustinAI : SumoBaseAI
 {
 
-    //Variables
+    //Variables and Lists
+
     List<Sumo> sumoList;
     List<GameObject> obstacleList;
     Transform sumoArena;
     float radius;
+    Vector2 sumoPos;
 
     // Start is called before the first frame update
     protected override void Start()
@@ -27,10 +29,14 @@ public class JustinAI : SumoBaseAI
     // Update is called once per frame
     void Update()
     {
-
+        sumoPos = new Vector2(transform.position.x, transform.position.z);
         Vector3 sumoArenaDistance = sumoArena.position - transform.position;
 
         float sumoArenaDistanceValue = sumoArenaDistance.sqrMagnitude;
+
+
+        //Stay within inner 75% radius of circle.
+
         if (Mathf.Sqrt(sumoArenaDistanceValue) < 0.75*radius)
         {
             //Debug.Log("75% of radius reached");
@@ -39,42 +45,58 @@ public class JustinAI : SumoBaseAI
                 currObjective = AiObjective.dodge;
                 ///Debug.Log("dodge");
             }
+
             else if(obstacleFinder() != null && sumoPointsTarget() != null)
             {
-                Vector2 obstaclePushDestination = 1.2f * sumoPointsTarget().transform.position - obstacleFinder().transform.position;
+                Vector3 obstaclePushDestination = 1.2f * sumoPointsTarget().transform.position - obstacleFinder().transform.position;
                 this.destination = obstaclePushDestination;
-                Quaternion rotation = Quaternion.LookRotation(obstaclePushDestination);
+                Quaternion rotation = Quaternion.LookRotation(obstacleFinder().transform.position - transform.position);
                 float sumoLookAngle = rotation.eulerAngles.y;
                 this.rotateToY = sumoLookAngle;
-                currObjective = AiObjective.push;
+                if(transform.position == obstaclePushDestination)
+                {
+                    currObjective = AiObjective.push;
+                }
+                else
+                {
+                    currObjective = AiObjective.idle;
+                }
             }
         }
         else
         {
             if(powerupFinder() != null && powerupFinder().GetComponent<PowerUpPointBundle>() != null)
             {
-                //run for points
+                //Run for points if powerupFinder has found a points bundle to run to.
                 Vector2 centerDestination = new Vector2(powerupFinder().transform.position.x, powerupFinder().transform.position.z);
                 this.destination = centerDestination;
-                Quaternion rotation = Quaternion.LookRotation(centerDestination);
+                Quaternion rotation = Quaternion.LookRotation(centerDestination - sumoPos);
                 float sumoLookAngle = rotation.eulerAngles.y;
                 this.rotateToY = sumoLookAngle;
                 currObjective = AiObjective.idle;
             }
             else
             {
-                //Push into center
+                //Otherwise, face towards and push into the center of the arena.
                 Vector2 centerDestination = new Vector2(sumoArena.position.x, sumoArena.position.z);
                 this.destination = centerDestination;
-                Quaternion rotation = Quaternion.LookRotation(centerDestination);
+                Quaternion rotation = Quaternion.LookRotation(sumoArena.transform.position - transform.position);
                 float sumoLookAngle = rotation.eulerAngles.y;
                 this.rotateToY = sumoLookAngle;
-                currObjective = AiObjective.push;
+                if(transform.rotation.y == sumoLookAngle)
+                {
+                    currObjective = AiObjective.push;
+                }
+                else
+                {
+                    currObjective = AiObjective.idle;
+                }
             }
         }
         //Debug.Log("closest sumo " + nearestSumoAI());
     }
 
+    //Function that finds the nearest SUMO using the sumoList and returns it's name.
     private Sumo nearestSumoAI()
     {
         Sumo nearestSumo = null;
@@ -94,6 +116,8 @@ public class JustinAI : SumoBaseAI
 
         return nearestSumo;
     }
+
+    //Function that finds the nearest powerup using the powerUpsList and returns its positional data relative to my SUMO AI.
     private Powerup powerupFinder()
     {
         Powerup[] powerUpsList = FindObjectsOfType<Powerup>();
@@ -120,6 +144,7 @@ public class JustinAI : SumoBaseAI
         return nearestPowerUp;
     }
 
+    //Function that finds the SUMO with the highest amount of points using the sumoList and returns that name.
     private Sumo sumoPointsTarget()
     {
         Sumo sumoHighestPoints = null;
@@ -139,6 +164,7 @@ public class JustinAI : SumoBaseAI
         return sumoHighestPoints;
     }
 
+    //Function that finds the nearest obstacle using the obstacleList and return its positional data relative to my SUMO AI.
     private GameObject obstacleFinder()
     {
         obstacleList = new List<GameObject>(GameObject.FindGameObjectsWithTag("Obstacle"));
@@ -155,7 +181,7 @@ public class JustinAI : SumoBaseAI
                 sumoDistance = distanceValue;
                 nearestObstacle = obstacle;
             }
-
+            
         }
 
         return nearestObstacle;

@@ -26822,7 +26822,7 @@ MonoBehaviour:
   - {fileID: 3486317201841873831}
   - {fileID: 3486317202812379615}
   - {fileID: 3486317202420900762}
-  - {fileID: 3486317202876731565}
+  - {fileID: 0}
   ring: {fileID: 4485564536029659}
   power: 500
 --- !u!82 &3486317201619108713
@@ -27084,7 +27084,6 @@ MonoBehaviour:
   destination: {x: 0, y: 0}
   rotateToY: 0
   gameHandler: {fileID: 1668082601545418872}
-  closestSumo: {fileID: 0}
 --- !u!82 &3486317201841873832
 AudioSource:
   m_ObjectHideFlags: 0
@@ -28071,7 +28070,7 @@ GameObject:
   - component: {fileID: 3486317202876731562}
   - component: {fileID: 3486317202876731561}
   - component: {fileID: 3486317202876731560}
-  - component: {fileID: 3486317202876731565}
+  - component: {fileID: 3486317202876731546}
   - component: {fileID: 215992109}
   - component: {fileID: 3486317202876731545}
   - component: {fileID: 3486317202876731544}
@@ -28194,6 +28193,34 @@ MonoBehaviour:
   push: {fileID: 8300000, guid: 5b770b4e977a8f540be1eb5753980ff8, type: 3}
   dodge: {fileID: 8300000, guid: 997a506b190743443ab5bebab3e63e7b, type: 3}
   impact: {fileID: 8300000, guid: 2962b4fbdc296d3488937f9681d3282e, type: 3}
+--- !u!114 &3486317202876731546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3486317202876731543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aea52bbec6bf14048a52ff0a5f891ac0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aud: {fileID: 0}
+  actionLocked: 0
+  movementSpeed: 5
+  rotationSpeed: 3.5
+  isPushing: 0
+  pushCD: 2.5
+  pushDuration: 1.5
+  pushForce: 25
+  isDodging: 0
+  dodgeCD: 3
+  dodgeDuration: 0.5
+  originalMat: {fileID: 2100000, guid: 1252d70f3d847b440a75bfa704cb650d, type: 2}
+  dodgeMat: {fileID: 2100000, guid: f12df0f6b8464274aa22130074b73e3c, type: 2}
+  currObjective: 0
+  destination: {x: 0, y: 0}
+  rotateToY: 0
 --- !u!54 &3486317202876731560
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -28288,41 +28315,6 @@ Transform:
   m_Father: {fileID: 228745345}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3486317202876731565
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3486317202876731543}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c00dcac0ef782c542a03180eaaa0b33e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  aud: {fileID: 3486317202876731545}
-  actionLocked: 0
-  movementSpeed: 5
-  rotationSpeed: 3.5
-  isPushing: 0
-  pushCD: 2.5
-  pushDuration: 1.5
-  pushForce: 25
-  isDodging: 0
-  dodgeCD: 3
-  dodgeDuration: 0.5
-  originalMat: {fileID: 2100000, guid: 2b78d8bc49a09c74180e34510a4503ad, type: 2}
-  dodgeMat: {fileID: 2100000, guid: 6773309ff8cd5fb45b97220997433fd1, type: 2}
-  currObjective: 2
-  destination: {x: 0, y: 0}
-  rotateToY: 0
-  GH: {fileID: 1668082601545418872}
-  objectiveCircle: {fileID: 4485564536029659}
-  distanceForAttack: 10
-  distanceForDefence: 5
-  enemyTargetingRotationOffset: 10
-  pickupTargetingRotationOffset: 2.5
-  pickupDistance: 10
 --- !u!1 &3486317203003174295
 GameObject:
   m_ObjectHideFlags: 0
