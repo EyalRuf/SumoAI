@@ -13,6 +13,7 @@ public class RazvanAI : SumoBaseAI
 
     float playerRadius = 2f;
     float dist;
+    float myPoints;
     public float power;
 
     bool isAggressive = false;
@@ -24,6 +25,7 @@ public class RazvanAI : SumoBaseAI
     {
         base.Start();
         ringCenter = new Vector2(ring.position.x, ring.position.z);
+        myPoints = this.gameObject.GetComponent<Points>().points;
         //destination = ringCenter;
     }
 
@@ -37,6 +39,9 @@ public class RazvanAI : SumoBaseAI
 
         /*if checkIfFirst() returns true, isDeffensive becomes true, 
          * if false, isAggressive becomes true*/
+        //nu mai face asta, folosesti un enum cu 2 stateuri, defensive si agressive
+        //bagi toata sectiunea asta de defensive agresive intr o functie de tip void
+        
         if (checkIfFirst())
         {
             isDeffensive = true;
@@ -47,6 +52,7 @@ public class RazvanAI : SumoBaseAI
             isAggressive = true;
         }
 
+        //Salveazaintro variabila
         getClosestSumoDist();
 
         Sumo sumoWithmostPoints = this.displaySumoWithMostPoints();
@@ -73,10 +79,10 @@ public class RazvanAI : SumoBaseAI
             }
 
             //If there is any sumo pushing towards me, dodge when he is in my radius
-            if (this.getClosestSumo().isPushing && this.isDodging == false && dist < playerRadius)
+            /*if (this.getClosestSumo().isPushing && this.isDodging == false && dist < playerRadius)
             {
                 Dodge();
-            }
+            }*/
 
             foreach (Powerup pUp in powerUps)
             {
@@ -86,10 +92,17 @@ public class RazvanAI : SumoBaseAI
                 if (pUp.tag == "PointsPowerUp")
                 {
                     pointPU = pUp;
+
+                    Quaternion rotToPointsPu = Quaternion.LookRotation(pointPU.transform.position - transform.position);
+                    float angleToPointsPu = rotToPointsPu.eulerAngles.y;
                     Vector2 dst = new Vector2(pointPU.transform.position.x, pointPU.transform.position.z);
+
+                    StartCoroutine(waitToPush(dst, 1.5f, angleToPointsPu));
+
                     destination = dst;
                     StartCoroutine(waitToPickUp());
                 }
+                //daca distanta intre cel mai apropriat sumo si power up e mai mica decat distanta intre mine si pu, push
 
                 //If there is any point power up, go pick it up
                 if (pickedUp)
@@ -119,12 +132,21 @@ public class RazvanAI : SumoBaseAI
             //If there is any point power up, go pick it up
             foreach (Powerup pUp in powerUps)
             {
-                if (pUp.tag == "PointsPowerUp")
+                if (pUp.tag == "PowerUp")
                 {
                     pointPU = pUp;
+
+                    Quaternion rotToOtherPu = Quaternion.LookRotation(pointPU.transform.position - transform.position);
+                    float angleToOtherPU = rotToOtherPu.eulerAngles.y;
+
                     Vector2 dst = new Vector2(pointPU.transform.position.x, pointPU.transform.position.z);
-                    destination = dst;
-                    StartCoroutine(waitToPickUp());
+                    if(myPoints < 45)
+                    {
+                        StartCoroutine(waitToPush(dst, 1.5f, angleToOtherPU));
+
+                        destination = dst;
+                        StartCoroutine(waitToPickUp());
+                    }
                 }
 
                 if (pickedUp)
@@ -255,4 +277,19 @@ public class RazvanAI : SumoBaseAI
 
     }
 
+    IEnumerator waitToPush(Vector2 dest, float time, float angleToP)
+    {
+        this.destination = dest;
+        this.rotateToY = angleToP;
+
+        yield return new WaitForSeconds(time);
+
+        Debug.Log("mere");
+
+        if (isPushing == false)
+        {
+            Push();
+        }
+        
+    }
 }
