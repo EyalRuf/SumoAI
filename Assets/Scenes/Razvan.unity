@@ -20191,7 +20191,7 @@ MonoBehaviour:
   currObjective: 2
   destination: {x: 0, y: 0}
   rotateToY: 0
-  oSumo:
+  otherSumo:
   - {fileID: 1618357308}
   - {fileID: 1064521150}
   - {fileID: 1647047777}
