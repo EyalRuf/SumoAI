@@ -117,7 +117,10 @@ public class RazvanAI : SumoBaseAI
 
             Debug.Log("agresive");
 
-            PowerUpAction(powerUps, pointPU, "PointsPowerUp");
+            if(myPoints < 48)
+            {
+                PowerUpAction(powerUps, pointPU, "PointsPowerUp");
+            }
         }
     }
 
