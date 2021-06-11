@@ -35,7 +35,6 @@ public class RazvanAI : SumoBaseAI
         base.Start();
         ringCenter = new Vector2(ring.position.x, ring.position.z);
         myPoints = this.gameObject.GetComponent<Points>().points;
-        //destination = ringCenter;
     }
 
     private void Update()
@@ -46,13 +45,8 @@ public class RazvanAI : SumoBaseAI
 
         Quaternion rotTowardsRing = Quaternion.LookRotation(ring.transform.position - transform.position);
         float angleTowardsRing = rotTowardsRing.eulerAngles.y;
-        //this.rotateToY = angleTowardsRing;
-
-        checkIfFirst();
-
-        /*if checkIfFirst() returns true, isDeffensive becomes true, 
-         * if false, isAggressive becomes true*/
         
+        //If I am first, state is defensive, otherwise agressive
         if (checkIfFirst())
         {
             state = Strategy.defensive;
@@ -65,6 +59,16 @@ public class RazvanAI : SumoBaseAI
 
         strategyDecision(state, closestSumoPosition, sumoWithmostPoints);
     }
+
+    /*If state is defensive, sumo stayins in the ring
+     * Dodges other ai's if they are in my ai's radius
+     * If I have less than 48 points, I start looking for
+     * force and weight powerups.
+     * 
+     * If state is agressive, sumo starts attaking the sumo with most points
+     * Attacks sumo only when there is no spawned points bundle
+     * If there is a points bundle spawned, I go pick it up
+     */
 
     void strategyDecision(Strategy state, Transform nearSumo, Sumo sumoWithHighestScore)
     {
@@ -110,13 +114,18 @@ public class RazvanAI : SumoBaseAI
 
                 }
             }
-            
 
-            //chemi functia 
+            Debug.Log("agresive");
+
             PowerUpAction(powerUps, pointPU, "PointsPowerUp");
         }
     }
 
+    /*Looks after power ups with the tag of "powerTag"
+     *If there is any power up with this tag, go toward it
+     *If the closest sumo is closer than me, push
+     *If picked up, go back to the ring
+     */
     private void PowerUpAction(Powerup[] powUP, Powerup storedPU, string powerTag)
     {
         foreach(Powerup pUp in powUP)
@@ -254,7 +263,7 @@ public class RazvanAI : SumoBaseAI
     {
         if (collision.collider.CompareTag("Player"))
         {
-            if (isDeffensive)
+            if (state == Strategy.defensive)
             {
                 breakFree();
             }
@@ -266,6 +275,7 @@ public class RazvanAI : SumoBaseAI
         }
     }
 
+    //If called, wait to pick up the power up then start
     IEnumerator waitToPickUp()
     {
 
@@ -276,10 +286,9 @@ public class RazvanAI : SumoBaseAI
 
     }
 
-    IEnumerator waitToPush(/*Vector2 dest*/ float time/*, float angleToRot*/)
+    //Wait for a couple of seconds then push
+    IEnumerator waitToPush(float time)
     {
-/*        this.destination = dest;*/
-        /*this.rotateToY = angleToRot;*/
 
         yield return new WaitForSeconds(time);
 

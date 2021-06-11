@@ -18,7 +18,7 @@ public class DayCycle : MonoBehaviour
     private void Start()
     {
         light = GetComponent<Light>();
-        StartCoroutine(cycle());
+        StartCoroutine(Cycle());
     }
 
     private void Update()
@@ -29,15 +29,15 @@ public class DayCycle : MonoBehaviour
         }
     }
 
-    public IEnumerator cycle()
+    public IEnumerator Cycle()
     {
         while (true)
         {
             yield return new WaitForSeconds(cycleSpeed);
-            rotate(); 
+            Rotate(); 
         }
     }
-    public void rotate()
+    public void Rotate()
     {
         transform.Rotate(Vector3.up * rotateSpeed);
         xRotation = transform.rotation.eulerAngles.x;
