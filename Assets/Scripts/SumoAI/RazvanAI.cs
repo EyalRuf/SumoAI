@@ -11,19 +11,20 @@ public class RazvanAI : SumoBaseAI
 
     Vector2 ringCenter;
 
-    float playerRadius = 3f;
+    float playerRadius = 2f;
     float dist;
     public float power;
 
-    bool isAggressive;
-    bool isDeffensive;
+    bool isAggressive = false;
+    bool isDeffensive = false;
     bool pushed;
+    bool pickedUp = false;
 
     protected override void Start()
     {
         base.Start();
         ringCenter = new Vector2(ring.position.x, ring.position.z);
-        destination = ringCenter;
+        //destination = ringCenter;
     }
 
     private void Update()
@@ -40,7 +41,6 @@ public class RazvanAI : SumoBaseAI
         {
             isDeffensive = true;
             isAggressive = false;
-            // aici ma duc dupa powerups daca am unu aproape
         } else
         {
             isDeffensive = false;
@@ -48,25 +48,57 @@ public class RazvanAI : SumoBaseAI
         }
 
         getClosestSumoDist();
-        Debug.Log(getClosestSumo());
-
-        //Saves dist between player and closest sumo
-        //float dist = Vector3.Distance(this.transform.position, trans.transform.position);
 
         Sumo sumoWithmostPoints = this.displaySumoWithMostPoints();
 
+        Powerup[] powerUps;
+        powerUps = FindObjectsOfType<Powerup>();
+        Vector3 curPos = transform.position;
+        Powerup p = null;
+        Powerup pointPU = null;
+
+        Quaternion rotTowards = Quaternion.LookRotation(sumoWithmostPoints.transform.position - transform.position);
+
         if (isAggressive)
         {
-            Quaternion rotTowards = Quaternion.LookRotation(sumoWithmostPoints.transform.position - transform.position);
             float angle = rotTowards.eulerAngles.y;
             this.rotateToY = angle;
-            destination = new Vector2(sumoWithmostPoints.transform.position.x, sumoWithmostPoints.transform.position.z);
 
             dist = Vector3.Distance(this.transform.position, sumoWithmostPoints.transform.position);
 
-            if(dist < playerRadius && isPushing == false)
+            //Push , if I can push, if the sumo is in my sumo range, if the other sumo is not dodging
+            if (dist <= playerRadius && isPushing == false && sumoWithmostPoints.isDodging == false)
             {
                 Push();
+            }
+
+            //If there is any sumo pushing towards me, dodge when he is in my radius
+            if (this.getClosestSumo().isPushing && this.isDodging == false && dist < playerRadius)
+            {
+                Dodge();
+            }
+
+            foreach (Powerup pUp in powerUps)
+            {
+                Vector2 thisPos = new Vector2(this.trans.position.x, this.transform.position.z);
+
+                //Check if there is any point power up, if yes, start courutine
+                if (pUp.tag == "PointsPowerUp")
+                {
+                    pointPU = pUp;
+                    Vector2 dst = new Vector2(pointPU.transform.position.x, pointPU.transform.position.z);
+                    destination = dst;
+                    StartCoroutine(waitToPickUp());
+                }
+
+                //If there is any point power up, go pick it up
+                if (pickedUp)
+                {
+                    destination = ringCenter;
+                    pointPU = null;
+                    pickedUp = false;
+                }
+
             }
         }
 
@@ -81,31 +113,29 @@ public class RazvanAI : SumoBaseAI
 
             if (this.getClosestSumo().isPushing && this.isDodging == false && dist < playerRadius)
             {
-                Dodge();   
+                Dodge();
             }
 
-            /*var pointsPowerUps = FindObjectOfType<PowerUpPointBundle>();
-            float pointsDist = Vector3.Distance(this.transform.position, pointsPowerUps.transform.position);
-
-            var forcePowerUp = FindObjectOfType<PowerUpForce>();
-            float forceDist = Vector3.Distance(this.transform.position, forcePowerUp.transform.position);
-
-            var weightPowerUp = FindObjectOfType<PowerUpWeight>();
-            float weightDist = Vector3.Distance(this.transform.position, weightPowerUp.transform.position);
-
-            if(pointsDist < forceDist && pointsDist < weightDist)
+            //If there is any point power up, go pick it up
+            foreach (Powerup pUp in powerUps)
             {
-                destination = new Vector2(pointsPowerUps.transform.position.x, pointsPowerUps.transform.position.z);
-            } else if(forceDist < pointsDist && forceDist < weightDist)
-            {
-                destination = new Vector2(forcePowerUp.transform.position.x, forcePowerUp.transform.position.z);
-            } else if(weightDist < forceDist && weightDist < pointsDist)
-            {
-                destination = new Vector2(weightPowerUp.transform.position.x, weightPowerUp.transform.position.z);
-            }*/
+                if (pUp.tag == "PointsPowerUp")
+                {
+                    pointPU = pUp;
+                    Vector2 dst = new Vector2(pointPU.transform.position.x, pointPU.transform.position.z);
+                    destination = dst;
+                    StartCoroutine(waitToPickUp());
+                }
 
+                if (pickedUp)
+                {
+                    destination = ringCenter;
+                    pointPU = null;
+                    pickedUp = false;
+                }
+
+            }
         }
-
     }
 
     //Returns the sumo with most points
@@ -182,10 +212,9 @@ public class RazvanAI : SumoBaseAI
         return closestSumo;
     }
 
+    //Secret ability
     private void breakFree()
     {
-        //Vreau ceva care sa impinga tot in juru playerului meu
-
         Vector3 breakFreePos = this.transform.position;
         Collider[] colliders = Physics.OverlapSphere(breakFreePos, playerRadius);
 
@@ -200,50 +229,30 @@ public class RazvanAI : SumoBaseAI
         }
     }
 
+    /*if I collide with an obstacle I breakf ree
+     * if I collide with a player and I'm in deffensive mode, I can break free
+     */
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.collider.CompareTag("Player") || collision.collider.CompareTag("Obstacle"))
+        if (collision.collider.CompareTag("Player"))
+        {
+            if (isDeffensive)
+            {
+                breakFree();
+            }
+        }
+
+        if (collision.collider.CompareTag("Obstacle"))
         {
             breakFree();
-            Debug.Log("BreakFree");
-            //Retreat
         }
     }
 
-}
-
-/*Ideeas
-     * in start:    - find center coordinates
-     *              - get oSumo coordinates
-     *              - 
-     *
-     * 
-     * FindObjectOfType<Powerup>()
-     * if this.sumo has most points => get some powerups
-     * else play aggressive/deffensive
-     * 
-     * Requirements:    - function to get oSumo's points
-     *                  - what is the distance between the this.Sumo and oSumo?
-     *                  - which oSumo is nearest to this.Sumo
-     *                  - oSumo is pushing?
-     */
-
-/*if (Vector3.Distance(this.transform.position, trans.transform.position) < 5f)
+    IEnumerator waitToPickUp()
     {
-        Push();
+        yield return new WaitForSeconds(6f);
+        pickedUp = true;
+
     }
 
-    if (Vector3.Distance(this.transform.position, trans.transform.position) < 5f)
-    {
-        Dodge();
-    }*/
-
-/*if sumo is in center, this.sumo push
- * if this.sumo is in center -> dodge
-
- * if closest sumo with most points within range ->rotate towards 
- *                                              ->push outside of circle
- * if this.sumo has most points defend -> dodge
- *                                     -> pick up powerups
-
- */
+}
